@@ -1,0 +1,32 @@
+{
+ "districts": [
+  {
+   "slug": "lwsd",
+   "district": "Lake Washington School District",
+   "district_code": 17414,
+   "school_year": "2024-25",
+   "school_count": 55
+  },
+  {
+   "slug": "bsd",
+   "district": "Bellevue School District",
+   "district_code": 17405,
+   "school_year": "2024-25",
+   "school_count": 30
+  },
+  {
+   "slug": "nsd",
+   "district": "Northshore School District",
+   "district_code": 17417,
+   "school_year": "2024-25",
+   "school_count": 36
+  },
+  {
+   "slug": "isd",
+   "district": "Issaquah School District",
+   "district_code": 17411,
+   "school_year": "2024-25",
+   "school_count": 30
+  }
+ ]
+}
