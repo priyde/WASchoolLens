@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About & Contact: WASchoolLens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#f5f5f3;color:#1a1a18;font-size:14px;line-height:1.6;font-weight:400;-webkit-font-smoothing:antialiased}
+.header{background:linear-gradient(135deg,#0f3f66 0%,#17629e 100%);color:#fff;padding:18px 24px}
+.header-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.wa-map{width:60px;height:auto;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.2));flex-shrink:0}
+.brand{font-size:22px;font-weight:700;letter-spacing:-.03em}
+.brand .lens{color:#7fc4ff}
+.tagline{font-size:13px;opacity:.85}
+.header-text{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.main{max-width:760px;margin:0 auto;padding:36px 20px 60px}
+h1{font-size:22px;font-weight:700;color:#0f3f66;margin-bottom:6px;letter-spacing:-.02em}
+h2{font-size:15px;font-weight:600;color:#0f3f66;margin:32px 0 10px;letter-spacing:-.01em}
+p{margin-bottom:14px;color:#3a3a36}
+.card{background:#fff;border:1px solid #e8e5dd;border-radius:12px;padding:24px 28px;margin-top:18px}
+.contact-name{font-size:16px;font-weight:600;color:#1a1a18;margin-top:18px}
+.contact-email{font-size:15px;margin-top:2px}
+.contact-email a{color:#17629e;text-decoration:none;font-weight:500}
+.contact-email a:hover{text-decoration:underline}
+.back-link{display:inline-block;margin-top:28px;font-size:13px;color:#17629e;text-decoration:none;font-weight:500}
+.back-link:hover{text-decoration:underline}
+.footer{max-width:760px;margin:24px auto 0;padding:18px 20px 28px;border-top:1px solid #e0ddd5;font-size:12px;color:#6b6b67;line-height:1.7}
+.footer a{color:#17629e;text-decoration:none}
+@media(max-width:600px){.brand{font-size:18px}.wa-map{width:46px}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <svg class="wa-map" viewBox="0 0 300 220" aria-hidden="true" focusable="false">
+      <path d="M38,22 L268,15 L270,95 L258,128 L272,148 L262,160 L210,170 L165,160 L120,168 L85,158 L60,168 L45,148 L22,118 L18,80 L24,48 Z"
+            fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.5)" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="97" cy="74" r="6" fill="#FFB85C" stroke="#fff" stroke-width="1.5"/>
+    </svg>
+    <div class="header-text">
+      <div class="brand">WASchool<span class="lens">Lens</span></div>
+      <div class="tagline">See every school clearly. Compare what matters.</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <h1>About this project</h1>
+  <p>When I started looking into which neighborhood schools my kid would attend, I turned to the usual school rating websites for help. What I found was disappointing for a few reasons: many of them were still showing outdated report card data, several leaned heavily on a narrow set of categories while ignoring others, and almost none of them made it easy to see how a school was actually doing compared to other schools in the same district.</p>
+  <p>That gap is what WASchoolLens is meant to fill. It pulls directly from the latest OSPI Washington State Report Card data and brings test scores, student growth, attendance, discipline, demographics, and graduation outcomes into one place, side by side, across every school in a district. The K-12 Pathways view goes a step further and follows a child's actual journey from elementary through middle and high school using each district's published feeder patterns.</p>
+  <p>My hope is that this is genuinely useful to parents comparing schools, teachers and administrators looking at how their school compares within the district, and anyone in the community who wants a clearer picture of how local schools are doing.</p>
+
+  <h2>Feedback &amp; contact</h2>
+  <div class="card">
+    <p>WASchoolLens is a work in progress, and more districts are being added over time. If you notice an error in the data, have a suggestion for a new metric, want a new district added, or just want to share feedback, I would love to hear from you.</p>
+    <div class="contact-name">Priyank A Deshmukh</div>
+    <div class="contact-email"><a href="mailto:priyankdeshm@gmail.com">priyankdeshm@gmail.com</a></div>
+  </div>
+
+  <a class="back-link" href="index.html">&larr; Back to dashboard</a>
+</div>
+
+<div class="footer">
+  <strong>WASchoolLens</strong> is an independent dashboard created by a parent. Not affiliated with OSPI or any school district.<br>
+  Data: <a href="https://ospi.k12.wa.us/data-reporting/data-portal" target="_blank" rel="noopener">OSPI Washington State Report Card</a> (data.wa.gov).<br>
+  &copy; 2026 Priyank A Deshmukh. All rights reserved.
+</div>
+
+</body>
+</html>
