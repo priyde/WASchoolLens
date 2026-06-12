@@ -10,11 +10,6 @@ All data comes directly from the [OSPI Washington State Report Card](https://osp
 
 ---
 
-## Live site
-
-https://priyde.github.io/WASchoolLens/
-
----
 
 ## Districts included (2024-25)
 
@@ -61,49 +56,6 @@ WASchoolLens/
 │   └── isd.json
 └── README.md
 ```
-
----
-
-## Running the pipeline
-
-### Requirements
-```
-pip install pandas openpyxl
-```
-
-### Steps
-1. Download the latest files from the [OSPI data portal](https://ospi.k12.wa.us/data-reporting/data-portal):
-   - Report Card Enrollment
-   - Report Card Assessment Data
-   - Report Card Student Growth
-   - Report Card Discipline
-   - Report Card Graduation
-   - Report Card SQSS
-   - Report Card WaKIDS Kindergarten
-2. Update the `FILES` config in `process_data.py` with the new file names and `SCHOOL_YEAR`.
-3. Run:
-   ```
-   python process_data.py
-   ```
-4. Commit the updated `data/*.json` files. The live site updates automatically.
-
-### Adding a district
-1. Add the district to `DISTRICTS` in `process_data.py`: `"slug": DistrictCode`
-2. Add `DISTRICT_NAMES[code] = "Full District Name"`
-3. Add a new sheet to `FeederFlow.xlsx` (sheet name = slug in uppercase, e.g. `BSD`)
-4. Re-run the pipeline. The district selector in the dashboard updates automatically.
-
----
-
-## Running locally
-
-Browsers block `fetch()` on `file://` pages. Serve the folder instead:
-```
-python -m http.server
-```
-Then open http://localhost:8000
-
----
 
 ## Data notes & methodology
 
