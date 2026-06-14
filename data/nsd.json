@@ -10,7 +10,11 @@
   {
    "school_code": 3107,
    "name": "Arrowhead Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 333,
    "frpl_pct": 0.3213,
    "asian_pct": 0.1051,
@@ -36,7 +40,11 @@
   {
    "school_code": 3106,
    "name": "Bothell High School",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 1800,
    "frpl_pct": 0.2367,
    "asian_pct": 0.1733,
@@ -60,7 +68,11 @@
   {
    "school_code": 2493,
    "name": "C O Sorenson",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 257,
    "frpl_pct": 0.1829,
    "asian_pct": 0.3035,
@@ -75,7 +87,11 @@
   {
    "school_code": 4017,
    "name": "Canyon Creek Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 868,
    "frpl_pct": 0.1555,
    "asian_pct": 0.4954,
@@ -101,7 +117,11 @@
   {
    "school_code": 3493,
    "name": "Canyon Park Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 908,
    "frpl_pct": 0.1971,
    "asian_pct": 0.2335,
@@ -126,7 +146,11 @@
   {
    "school_code": 3234,
    "name": "Cottage Lake Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 261,
    "frpl_pct": 0.1494,
    "asian_pct": 0.0805,
@@ -152,7 +176,11 @@
   {
    "school_code": 3105,
    "name": "Crystal Springs Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 502,
    "frpl_pct": 0.3506,
    "asian_pct": 0.3287,
@@ -178,7 +206,11 @@
   {
    "school_code": 4379,
    "name": "East Ridge Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 427,
    "frpl_pct": 0.0749,
    "asian_pct": 0.0749,
@@ -204,7 +236,11 @@
   {
    "school_code": 4306,
    "name": "Fernwood Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 715,
    "frpl_pct": 0.0615,
    "asian_pct": 0.7552,
@@ -230,7 +266,11 @@
   {
    "school_code": 4355,
    "name": "Frank Love Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 493,
    "frpl_pct": 0.2434,
    "asian_pct": 0.2272,
@@ -256,7 +296,11 @@
   {
    "school_code": 4124,
    "name": "Hollywood Hill Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 333,
    "frpl_pct": 0.1892,
    "asian_pct": 0.1982,
@@ -282,7 +326,11 @@
   {
    "school_code": 3492,
    "name": "Inglemoor HS",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 1463,
    "frpl_pct": 0.2221,
    "asian_pct": 0.1914,
@@ -306,7 +354,11 @@
   {
    "school_code": 5606,
    "name": "Innovation Lab High School",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": true,
    "enrollment": 259,
    "frpl_pct": 0.1351,
    "asian_pct": 0.0849,
@@ -330,7 +382,11 @@
   {
    "school_code": 2993,
    "name": "Kenmore Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 398,
    "frpl_pct": 0.4196,
    "asian_pct": 0.1005,
@@ -356,7 +412,11 @@
   {
    "school_code": 3345,
    "name": "Kenmore Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 734,
    "frpl_pct": 0.2738,
    "asian_pct": 0.1608,
@@ -381,7 +441,11 @@
   {
    "school_code": 4455,
    "name": "Kokanee Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 652,
    "frpl_pct": 0.0675,
    "asian_pct": 0.6702,
@@ -407,7 +471,11 @@
   {
    "school_code": 3790,
    "name": "Leota Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 859,
    "frpl_pct": 0.1769,
    "asian_pct": 0.3725,
@@ -432,7 +500,11 @@
   {
    "school_code": 3390,
    "name": "Lockwood Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 528,
    "frpl_pct": 0.1686,
    "asian_pct": 0.2557,
@@ -458,7 +530,11 @@
   {
    "school_code": 3344,
    "name": "Maywood Hills Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 469,
    "frpl_pct": 0.2217,
    "asian_pct": 0.1535,
@@ -484,7 +560,11 @@
   {
    "school_code": 3442,
    "name": "Moorlands Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 580,
    "frpl_pct": 0.1069,
    "asian_pct": 0.2138,
@@ -510,7 +590,11 @@
   {
    "school_code": 5481,
    "name": "North Creek High School",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 1943,
    "frpl_pct": 0.2028,
    "asian_pct": 0.4668,
@@ -534,7 +618,13 @@
   {
    "school_code": 5753,
    "name": "Northshore Learning Options",
-   "type": "Alt/Charter",
+   "types": [
+    "Elementary",
+    "Middle",
+    "High"
+   ],
+   "type_label": "K-12",
+   "is_alt": true,
    "enrollment": 429,
    "frpl_pct": 0.1795,
    "asian_pct": 0.0909,
@@ -561,7 +651,11 @@
   {
    "school_code": 4021,
    "name": "Northshore Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 755,
    "frpl_pct": 0.2238,
    "asian_pct": 0.1589,
@@ -586,7 +680,11 @@
   {
    "school_code": 5331,
    "name": "Northshore Online Reengagement Program",
-   "type": "Alt/Charter",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": true,
    "enrollment": 12,
    "frpl_pct": 0.3333,
    "asian_pct": 0.0,
@@ -608,7 +706,13 @@
   {
    "school_code": 1815,
    "name": "Northshore Special Services",
-   "type": "Alt/Charter",
+   "types": [
+    "Elementary",
+    "Middle",
+    "High"
+   ],
+   "type_label": "K-12",
+   "is_alt": true,
    "enrollment": 45,
    "frpl_pct": 0.2444,
    "asian_pct": 0.0889,
@@ -634,7 +738,11 @@
   {
    "school_code": 5605,
    "name": "Ruby Bridges Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 506,
    "frpl_pct": 0.1324,
    "asian_pct": 0.502,
@@ -660,7 +768,11 @@
   {
    "school_code": 3811,
    "name": "Secondary Academy for Success",
-   "type": "Alt/Charter",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": true,
    "enrollment": 77,
    "frpl_pct": 0.4286,
    "asian_pct": 0.0649,
@@ -684,7 +796,11 @@
   {
    "school_code": 3679,
    "name": "Shelton View Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 514,
    "frpl_pct": 0.1634,
    "asian_pct": 0.3327,
@@ -710,7 +826,11 @@
   {
    "school_code": 4371,
    "name": "Skyview Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 1217,
    "frpl_pct": 0.1684,
    "asian_pct": 0.5185,
@@ -735,7 +855,11 @@
   {
    "school_code": 4187,
    "name": "Sunrise Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 323,
    "frpl_pct": 0.0619,
    "asian_pct": 0.3963,
@@ -761,7 +885,11 @@
   {
    "school_code": 4516,
    "name": "Timbercrest Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 666,
    "frpl_pct": 0.0976,
    "asian_pct": 0.1201,
@@ -786,7 +914,11 @@
   {
    "school_code": 4069,
    "name": "Wellington Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 383,
    "frpl_pct": 0.1384,
    "asian_pct": 0.1436,
@@ -812,7 +944,11 @@
   {
    "school_code": 3287,
    "name": "Westhill Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 420,
    "frpl_pct": 0.1738,
    "asian_pct": 0.2738,
@@ -838,7 +974,11 @@
   {
    "school_code": 3749,
    "name": "Woodin Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 469,
    "frpl_pct": 0.307,
    "asian_pct": 0.1471,
@@ -864,7 +1004,11 @@
   {
    "school_code": 4208,
    "name": "Woodinville HS",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 1688,
    "frpl_pct": 0.1487,
    "asian_pct": 0.1315,
@@ -888,7 +1032,11 @@
   {
    "school_code": 4377,
    "name": "Woodmoor Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 643,
    "frpl_pct": 0.395,
    "asian_pct": 0.182,

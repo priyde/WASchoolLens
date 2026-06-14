@@ -10,7 +10,11 @@
   {
    "school_code": 3746,
    "name": "Apollo Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 497,
    "frpl_pct": 0.1771,
    "asian_pct": 0.3843,
@@ -36,7 +40,11 @@
   {
    "school_code": 4460,
    "name": "Beaver Lake Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 705,
    "frpl_pct": 0.0965,
    "asian_pct": 0.4454,
@@ -61,7 +69,11 @@
   {
    "school_code": 3440,
    "name": "Briarwood Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 630,
    "frpl_pct": 0.1619,
    "asian_pct": 0.3683,
@@ -87,7 +99,11 @@
   {
    "school_code": 4565,
    "name": "Cascade Ridge Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 391,
    "frpl_pct": 0.0409,
    "asian_pct": 0.5729,
@@ -113,7 +129,11 @@
   {
    "school_code": 5673,
    "name": "Cedar Trails Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 374,
    "frpl_pct": 0.1658,
    "asian_pct": 0.4813,
@@ -139,7 +159,11 @@
   {
    "school_code": 4300,
    "name": "Challenger Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 350,
    "frpl_pct": 0.1771,
    "asian_pct": 0.4143,
@@ -165,7 +189,11 @@
   {
    "school_code": 2738,
    "name": "Clark Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 588,
    "frpl_pct": 0.2874,
    "asian_pct": 0.3503,
@@ -191,7 +219,11 @@
   {
    "school_code": 5674,
    "name": "Cougar Mountain Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 617,
    "frpl_pct": 0.1264,
    "asian_pct": 0.3371,
@@ -216,7 +248,11 @@
   {
    "school_code": 4375,
    "name": "Cougar Ridge Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 459,
    "frpl_pct": 0.1155,
    "asian_pct": 0.4248,
@@ -242,7 +278,11 @@
   {
    "school_code": 5201,
    "name": "Creekside Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 558,
    "frpl_pct": 0.0573,
    "asian_pct": 0.448,
@@ -268,7 +308,11 @@
   {
    "school_code": 4376,
    "name": "Discovery Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 508,
    "frpl_pct": 0.0492,
    "asian_pct": 0.622,
@@ -294,7 +338,12 @@
   {
    "school_code": 3569,
    "name": "Echo Glen School",
-   "type": "Alt/Charter",
+   "types": [
+    "Middle",
+    "High"
+   ],
+   "type_label": "6-12",
+   "is_alt": true,
    "enrollment": 107,
    "frpl_pct": 0.0,
    "asian_pct": 0.0,
@@ -320,7 +369,11 @@
   {
    "school_code": 4493,
    "name": "Endeavour Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 473,
    "frpl_pct": 0.1015,
    "asian_pct": 0.4651,
@@ -346,7 +399,11 @@
   {
    "school_code": 5437,
    "name": "Gibson Ek High School",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": true,
    "enrollment": 205,
    "frpl_pct": 0.1463,
    "asian_pct": 0.0732,
@@ -370,7 +427,11 @@
   {
    "school_code": 5056,
    "name": "Grand Ridge Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 558,
    "frpl_pct": 0.086,
    "asian_pct": 0.4785,
@@ -396,7 +457,11 @@
   {
    "school_code": 5577,
    "name": "Holly Street Early Learning Center",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 89,
    "frpl_pct": 0.6517,
    "asian_pct": 0.1573,
@@ -411,7 +476,11 @@
   {
    "school_code": 3385,
    "name": "Issaquah High School",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 2494,
    "frpl_pct": 0.166,
    "asian_pct": 0.2999,
@@ -435,7 +504,11 @@
   {
    "school_code": 3038,
    "name": "Issaquah Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 816,
    "frpl_pct": 0.2831,
    "asian_pct": 0.1924,
@@ -460,7 +533,11 @@
   {
    "school_code": 5062,
    "name": "Issaquah Preschool Academy",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 43,
    "frpl_pct": 0.0,
    "asian_pct": 0.3953,
@@ -475,7 +552,13 @@
   {
    "school_code": 1624,
    "name": "Issaquah Special Services",
-   "type": "Alt/Charter",
+   "types": [
+    "Elementary",
+    "Middle",
+    "High"
+   ],
+   "type_label": "K-12",
+   "is_alt": true,
    "enrollment": 72,
    "frpl_pct": 0.125,
    "asian_pct": 0.2083,
@@ -501,7 +584,11 @@
   {
    "school_code": 3673,
    "name": "Issaquah Valley Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 646,
    "frpl_pct": 0.2663,
    "asian_pct": 0.1796,
@@ -527,7 +614,11 @@
   {
    "school_code": 3962,
    "name": "Liberty Sr High School",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 1502,
    "frpl_pct": 0.1877,
    "asian_pct": 0.2823,
@@ -551,7 +642,11 @@
   {
    "school_code": 3637,
    "name": "Maple Hills Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 460,
    "frpl_pct": 0.1348,
    "asian_pct": 0.0522,
@@ -577,7 +672,11 @@
   {
    "school_code": 3636,
    "name": "Maywood Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 831,
    "frpl_pct": 0.1913,
    "asian_pct": 0.2551,
@@ -602,7 +701,11 @@
   {
    "school_code": 4592,
    "name": "Newcastle Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 452,
    "frpl_pct": 0.2168,
    "asian_pct": 0.4093,
@@ -628,7 +731,11 @@
   {
    "school_code": 5200,
    "name": "Pacific Cascade Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 607,
    "frpl_pct": 0.112,
    "asian_pct": 0.4481,
@@ -653,7 +760,11 @@
   {
    "school_code": 3879,
    "name": "Pine Lake Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 888,
    "frpl_pct": 0.0833,
    "asian_pct": 0.5214,
@@ -678,7 +789,11 @@
   {
    "school_code": 4495,
    "name": "Skyline High School",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 2265,
    "frpl_pct": 0.0892,
    "asian_pct": 0.4358,
@@ -702,7 +817,11 @@
   {
    "school_code": 3386,
    "name": "Sunny Hills Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 574,
    "frpl_pct": 0.1098,
    "asian_pct": 0.5035,
@@ -728,7 +847,11 @@
   {
    "school_code": 3228,
    "name": "Sunset Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 500,
    "frpl_pct": 0.204,
    "asian_pct": 0.312,

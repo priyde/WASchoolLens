@@ -10,7 +10,11 @@
   {
    "school_code": 3633,
    "name": "Ardmore Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 415,
    "frpl_pct": 0.5398,
    "asian_pct": 0.2964,
@@ -36,7 +40,12 @@
   {
    "school_code": 5240,
    "name": "Bellevue Big Picture School",
-   "type": "Alt/Charter",
+   "types": [
+    "Middle",
+    "High"
+   ],
+   "type_label": "6-12",
+   "is_alt": true,
    "enrollment": 347,
    "frpl_pct": 0.2392,
    "asian_pct": 0.2824,
@@ -62,7 +71,13 @@
   {
    "school_code": 5714,
    "name": "Bellevue Digital Discovery",
-   "type": "Alt/Charter",
+   "types": [
+    "Elementary",
+    "Middle",
+    "High"
+   ],
+   "type_label": "K-12",
+   "is_alt": true,
    "enrollment": 239,
    "frpl_pct": 0.0669,
    "asian_pct": 0.2008,
@@ -88,7 +103,11 @@
   {
    "school_code": 2701,
    "name": "Bellevue High School",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 1714,
    "frpl_pct": 0.1873,
    "asian_pct": 0.4055,
@@ -112,7 +131,11 @@
   {
    "school_code": 5325,
    "name": "Bellevue Open Doors Reengagement",
-   "type": "Alt/Charter",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": true,
    "enrollment": 24,
    "frpl_pct": 0.125,
    "asian_pct": 0.0,
@@ -134,7 +157,11 @@
   {
    "school_code": 3705,
    "name": "Bennett Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 514,
    "frpl_pct": 0.0798,
    "asian_pct": 0.4805,
@@ -160,7 +187,11 @@
   {
    "school_code": 5281,
    "name": "Central Educational Services",
-   "type": "Elementary",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 67,
    "frpl_pct": 0.4328,
    "asian_pct": 0.2537,
@@ -182,7 +213,11 @@
   {
    "school_code": 3742,
    "name": "Cherry Crest Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 553,
    "frpl_pct": 0.0452,
    "asian_pct": 0.7179,
@@ -208,7 +243,11 @@
   {
    "school_code": 3338,
    "name": "Chinook Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 755,
    "frpl_pct": 0.2397,
    "asian_pct": 0.3497,
@@ -233,7 +272,11 @@
   {
    "school_code": 2847,
    "name": "Clyde Hill Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 594,
    "frpl_pct": 0.2189,
    "asian_pct": 0.4663,
@@ -259,7 +302,11 @@
   {
    "school_code": 2846,
    "name": "Enatai Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 518,
    "frpl_pct": 0.2181,
    "asian_pct": 0.3533,
@@ -285,7 +332,11 @@
   {
    "school_code": 3166,
    "name": "Highland Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 590,
    "frpl_pct": 0.5983,
    "asian_pct": 0.1559,
@@ -310,7 +361,11 @@
   {
    "school_code": 3588,
    "name": "Interlake Senior High School",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 1636,
    "frpl_pct": 0.2677,
    "asian_pct": 0.4939,
@@ -334,7 +389,12 @@
   {
    "school_code": 3522,
    "name": "International School",
-   "type": "Elementary",
+   "types": [
+    "Middle",
+    "High"
+   ],
+   "type_label": "6-12",
+   "is_alt": true,
    "enrollment": 600,
    "frpl_pct": 0.08,
    "asian_pct": 0.6017,
@@ -360,7 +420,11 @@
   {
    "school_code": 5308,
    "name": "Jing Mei Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 577,
    "frpl_pct": 0.0988,
    "asian_pct": 0.7088,
@@ -386,7 +450,11 @@
   {
    "school_code": 3225,
    "name": "Lake Hills Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 501,
    "frpl_pct": 0.6687,
    "asian_pct": 0.1477,
@@ -412,7 +480,11 @@
   {
    "school_code": 3436,
    "name": "Medina Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 592,
    "frpl_pct": 0.0574,
    "asian_pct": 0.7078,
@@ -438,7 +510,11 @@
   {
    "school_code": 3437,
    "name": "Newport Heights Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 550,
    "frpl_pct": 0.2618,
    "asian_pct": 0.5109,
@@ -464,7 +540,11 @@
   {
    "school_code": 3486,
    "name": "Newport Senior High School",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 1861,
    "frpl_pct": 0.1591,
    "asian_pct": 0.6083,
@@ -488,7 +568,11 @@
   {
    "school_code": 3631,
    "name": "Odle Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 979,
    "frpl_pct": 0.1992,
    "asian_pct": 0.6507,
@@ -513,7 +597,11 @@
   {
    "school_code": 3168,
    "name": "Phantom Lake Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 430,
    "frpl_pct": 0.3419,
    "asian_pct": 0.3186,
@@ -539,7 +627,11 @@
   {
    "school_code": 3224,
    "name": "Puesta del Sol Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 494,
    "frpl_pct": 0.2368,
    "asian_pct": 0.1559,
@@ -565,7 +657,11 @@
   {
    "school_code": 3282,
    "name": "Sammamish Senior High",
-   "type": "High",
+   "types": [
+    "High"
+   ],
+   "type_label": "High",
+   "is_alt": false,
    "enrollment": 1384,
    "frpl_pct": 0.4249,
    "asian_pct": 0.1936,
@@ -589,7 +685,11 @@
   {
    "school_code": 3339,
    "name": "Sherwood Forest Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 415,
    "frpl_pct": 0.5301,
    "asian_pct": 0.1831,
@@ -615,7 +715,11 @@
   {
    "school_code": 3789,
    "name": "Somerset Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 741,
    "frpl_pct": 0.0769,
    "asian_pct": 0.7449,
@@ -641,7 +745,11 @@
   {
    "school_code": 3634,
    "name": "Spiritridge Elementary School",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 551,
    "frpl_pct": 0.2033,
    "asian_pct": 0.3811,
@@ -667,7 +775,11 @@
   {
    "school_code": 3100,
    "name": "Stevenson Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 581,
    "frpl_pct": 0.5663,
    "asian_pct": 0.3546,
@@ -693,7 +805,11 @@
   {
    "school_code": 3435,
    "name": "Tillicum Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 676,
    "frpl_pct": 0.1982,
    "asian_pct": 0.3136,
@@ -718,7 +834,11 @@
   {
    "school_code": 3283,
    "name": "Tyee Middle School",
-   "type": "Middle",
+   "types": [
+    "Middle"
+   ],
+   "type_label": "Middle",
+   "is_alt": false,
    "enrollment": 1012,
    "frpl_pct": 0.1907,
    "asian_pct": 0.67,
@@ -743,7 +863,11 @@
   {
    "school_code": 3167,
    "name": "Woodridge Elementary",
-   "type": "Elementary",
+   "types": [
+    "Elementary"
+   ],
+   "type_label": "Elementary",
+   "is_alt": false,
    "enrollment": 556,
    "frpl_pct": 0.2374,
    "asian_pct": 0.5144,
