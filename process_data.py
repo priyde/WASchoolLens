@@ -91,26 +91,58 @@ def safe_div(num, den):
     except (TypeError, ValueError):
         return None
 
-def classify_school(name):
+GRADE_ORDER = [
+    'Pre-Kindergarten', 'Transition to Kindergarten', 'Half-Day Kindergarten', 'Kindergarten',
+    '1st Grade', '2nd Grade', '3rd Grade', '4th Grade', '5th Grade',
+    '6th Grade', '7th Grade', '8th Grade',
+    '9th Grade', '10th Grade', '11th Grade', '12th Grade',
+]
+ELEM_GRADES = set(GRADE_ORDER[:9])   # Pre-K through 5th
+MID_GRADES  = set(GRADE_ORDER[9:12]) # 6th-8th
+HIGH_GRADES = set(GRADE_ORDER[12:])  # 9th-12th
+
+# Keywords identifying choice / magnet / alternative programs (independent of
+# the grades they serve). Used only for the "Choice" badge, not for filtering.
+ALT_KEYWORDS = [
+    'community school', 'renaissance', 'stella schola',
+    'environmental', 'old redmond', 'skill center',
+    'international community', 'international school',
+    'discovery community', 'explorer community', 'contractual',
+    'big picture', 'digital discovery', 'open doors', 'reengagement',
+    'learning options', 'online', 'special services',
+    'secondary academy', 'community center', 'echo glen',
+    'gibson ek', 'innovation lab', 'tesla stem', 'nikola tesla',
+]
+
+def is_alt_school(name):
+    n = name.lower()
+    return any(kw in n for kw in ALT_KEYWORDS)
+
+def classify_by_name(name):
+    """Fallback single-band guess, used only if a school has no per-grade
+    enrollment data at all (e.g. fully suppressed)."""
     n = name.lower()
     if any(x in n for x in ['high school', 'senior high', ' hs', 'stem high']):
         return 'High'
     if 'middle' in n:
         return 'Middle'
-    if 'k-12' in n:
-        return 'K-12'
-    if any(x in n for x in [
-        'community school', 'renaissance', 'stella schola',
-        'environmental', 'old redmond', 'skill center',
-        'international community', 'discovery community',
-        'explorer community', 'contractual', 'big picture',
-        'digital discovery', 'open doors', 'reengagement',
-        'learning options', 'online', 'special services',
-        'secondary academy', 'community center', 'echo glen',
-        'gibson ek', 'innovation lab',
-    ]):
-        return 'Alt/Charter'
     return 'Elementary'
+
+def bands_to_type(bands):
+    """Convert a set of {'Elementary','Middle','High'} into (types list, display label)."""
+    if bands == {'Elementary'}:
+        return ['Elementary'], 'Elementary'
+    if bands == {'Middle'}:
+        return ['Middle'], 'Middle'
+    if bands == {'High'}:
+        return ['High'], 'High'
+    if bands == {'Elementary', 'Middle'}:
+        return ['Elementary', 'Middle'], 'K-8'
+    if bands == {'Middle', 'High'}:
+        return ['Middle', 'High'], '6-12'
+    if bands >= {'Elementary', 'Middle', 'High'} or bands == {'Elementary', 'High'}:
+        return ['Elementary', 'Middle', 'High'], 'K-12'
+    return [], None  # empty / no grade data
 
 def jclean(v):
     """Make value safe for JSON serialisation."""
@@ -163,6 +195,41 @@ def build_reference_tables(enr_df):
     return school_names, org_id_bridge, dist_org_ids
 
 # ── EXTRACTORS ──────────────────────────────────────────────────────────────
+
+def extract_grade_bands(enr_df, dist_code):
+    """Determine which grade bands (Elementary/Middle/High) each school
+    actually serves, based on per-grade enrollment counts.
+    Returns {school_code: {'types': [...], 'type_label': str}}"""
+    d = enr_df[
+        (enr_df['DistrictCode'] == dist_code) &
+        (enr_df['OrganizationLevel'] == 'School') &
+        (enr_df['GradeLevel'] != 'All Grades')
+    ]
+    grades_by_school = {}
+    for _, r in d.iterrows():
+        sc = safe_int(r.get('SchoolCode'))
+        grade = r.get('GradeLevel')
+        n = r.get('All Students')
+        if not sc or grade not in GRADE_ORDER:
+            continue
+        if n is None or (isinstance(n, float) and np.isnan(n)) or n <= 0:
+            continue
+        grades_by_school.setdefault(sc, set()).add(grade)
+
+    out = {}
+    for sc, grades in grades_by_school.items():
+        bands = set()
+        if grades & ELEM_GRADES:
+            bands.add('Elementary')
+        if grades & MID_GRADES:
+            bands.add('Middle')
+        if grades & HIGH_GRADES:
+            bands.add('High')
+        types, label = bands_to_type(bands)
+        if types:
+            out[sc] = {'types': types, 'type_label': label}
+    return out
+
 
 def extract_enrollment(enr_df, dist_code):
     """Returns {school_code: {...enrollment metrics...}}"""
@@ -379,6 +446,7 @@ def build_district(slug, dist_code, dfs, school_names_all, org_id_bridge, dist_o
 
     # Extract all metrics (keyed by SchoolCode)
     enrollment  = extract_enrollment(dfs['enrollment'],  dist_code)
+    grade_bands = extract_grade_bands(dfs['enrollment'], dist_code)
     assessment  = extract_assessment(dfs['assessment'],  dist_code)
     growth      = extract_growth(    dfs['growth'],      dist_code)
     discipline  = extract_discipline(dfs['discipline'],  dist_code)
@@ -391,10 +459,20 @@ def build_district(slug, dist_code, dfs, school_names_all, org_id_bridge, dist_o
     schools = []
     for sc, base in sorted(enrollment.items(), key=lambda x: school_name_lookup.get(x[0], '')):
         name = school_name_lookup.get(sc, f'Unknown ({sc})')
+        bands = grade_bands.get(sc)
+        if bands:
+            types, type_label = bands['types'], bands['type_label']
+        else:
+            # No per-grade enrollment data (fully suppressed) - fall back
+            # to a single-band guess from the school name.
+            label = classify_by_name(name)
+            types, type_label = [label], label
         rec  = {
             'school_code': sc,
             'name':        name,
-            'type':        classify_school(name),
+            'types':       types,
+            'type_label':  type_label,
+            'is_alt':      is_alt_school(name),
         }
         rec.update(base)
         for src in (assessment, growth, discipline, graduation, sqss, wakids):

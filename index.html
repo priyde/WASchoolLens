@@ -52,7 +52,9 @@ tr.highlighted td{background:#CFE6FB!important;border-bottom-color:#aed1f0!impor
 .bar-val{font-size:12px;color:#6b6b67;min-width:38px;text-align:right}
 .chip{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
 .chip-e{background:#ddeeff;color:#1a5fa8}.chip-m{background:#d4f4e8;color:#0f6e56}
-.chip-h{background:#fde8d8;color:#854F0B}.chip-a{background:#eeede8;color:#5F5E5A}.chip-k{background:#fce8f0;color:#993556}
+.chip-h{background:#fde8d8;color:#854F0B}.chip-k{background:#fce8f0;color:#993556}
+.chip-k8{background:#e6f3e0;color:#3D7A3A}.chip-612{background:#efe4f7;color:#6B4FA0}
+.alt-badge{display:inline-block;margin-left:5px;padding:1px 6px;border-radius:8px;font-size:9.5px;font-weight:600;background:#f0ede8;color:#8B7355;letter-spacing:.03em;vertical-align:middle;border-bottom:1px dotted #b8ab97}
 .sort-icon{opacity:.4;margin-left:3px;font-style:normal}
 th.asc .sort-icon::after{content:'↑';opacity:1}
 th.desc .sort-icon::after{content:'↓';opacity:1}
@@ -139,13 +141,12 @@ tr.highlighted td.rank-cell{color:#0f3f66}
     <select id="districtSel"></select>
   </div>
   <div class="ctrl-group">
-    <div class="ctrl-label">School type</div>
+    <div class="ctrl-label tt">School type<span class="tt-box">Filters by the grades a school actually serves. Schools spanning multiple levels (e.g. a 6-12 school) appear under both Middle and High School. Choice/magnet programs are marked with a small "Choice" badge wherever they appear.</span></div>
     <select id="typeFilter">
       <option value="all">All types</option>
       <option value="Elementary">Elementary</option>
       <option value="Middle">Middle</option>
       <option value="High">High School</option>
-      <option value="Alt/Charter">Alt / Charter</option>
     </select>
   </div>
   <div class="ctrl-group">
@@ -187,7 +188,7 @@ tr.highlighted td.rank-cell{color:#0f3f66}
       <div class="glossary-section">Data &amp; organizations</div>
       <div class="glossary-item"><span class="glossary-term">OSPI</span><span class="glossary-def">Office of Superintendent of Public Instruction: WA State's education department and source of all data here</span></div>
       <div class="glossary-item"><span class="glossary-term">N&lt;10 / DAT</span><span class="glossary-def">Values hidden by OSPI when student counts are small, to protect privacy (Disclosure Avoidance)</span></div>
-      <div class="glossary-item"><span class="glossary-term">Alt/Charter</span><span class="glossary-def">Choice, magnet, or non-traditional schools: enrollment is selective, so compare with care</span></div>
+      <div class="glossary-item"><span class="glossary-term">Choice badge</span><span class="glossary-def">Marks choice, magnet, or alternative programs. Enrollment is often selective, so compare with care. These schools still appear under their actual grade-level filters (Elementary/Middle/High)</span></div>
     </div>
   </div>
 </div>
@@ -307,8 +308,7 @@ tr.highlighted td.rank-cell{color:#0f3f66}
   <div class="legend">
     <span><span class="legend-dot" style="background:#378ADD"></span>Elementary</span>
     <span><span class="legend-dot" style="background:#1D9E75"></span>Middle</span>
-    <span><span class="legend-dot" style="background:#D85A30"></span>High School</span>
-    <span><span class="legend-dot" style="background:#888780"></span>Alt/Charter/K-12</span>
+    <span><span class="legend-dot" style="background:#D85A30"></span>High School (incl. schools serving through 12th grade)</span>
     <span style="margin-left:8px;color:#aaa">(dashed) trend line</span>
   </div>
   <div class="scatter-wrap">
@@ -366,20 +366,22 @@ tr.highlighted td.rank-cell{color:#0f3f66}
 </div>
 
 <script>
-const TYPE_COLORS={Elementary:'#378ADD',Middle:'#1D9E75',High:'#D85A30','Alt/Charter':'#888780','K-12':'#D4537E'};
+const TYPE_COLORS={Elementary:'#378ADD',Middle:'#1D9E75',High:'#D85A30'};
 let DATA=[],CHAINS=[],META={};
 let sortCol=null,sortDir=1,currentType='all',highlightTerm='',activePanel='scores';
 
 /* ---------- formatting helpers ---------- */
 function pct(v,dec){if(v==null)return'-';return(v*100).toFixed(dec==null?1:dec)+'%'}
-function typeChip(t){const m={Elementary:'chip-e',Middle:'chip-m',High:'chip-h','Alt/Charter':'chip-a','K-12':'chip-k'};return'<span class="chip '+(m[t]||'chip-a')+'">'+t+'</span>'}
+function typeChip(label){const m={Elementary:'chip-e',Middle:'chip-m',High:'chip-h','K-8':'chip-k8','6-12':'chip-612','K-12':'chip-k'};return'<span class="chip '+(m[label]||'chip-e')+'">'+label+'</span>'}
+function altBadge(r){return r.is_alt?'<span class="tt alt-badge">Choice<span class="tt-box">This is a choice, magnet, or alternative program. Enrollment may be selective, so compare scores and demographics with care.</span></span>':''}
+function primaryBand(types){if(!types)return'Elementary';if(types.includes('High'))return'High';if(types.includes('Middle'))return'Middle';return'Elementary'}
 function bar(val,color){if(val==null)return'<span style="color:#999">-</span>';const w=Math.round(val*100);return'<div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+w+'%;background:'+color+'"></div></div><span class="bar-val">'+(val*100).toFixed(1)+'%</span></div>'}
 function sgpBar(val){if(val==null)return'<span style="color:#999">-</span>';const c=val>=55?'#1D9E75':val>=45?'#378ADD':'#D85A30';return'<div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+Math.round(val)+'%;background:'+c+'"></div></div><span class="bar-val">'+val+'</span></div>'}
 function discBar(val,suppressed){if(val==null)return'<span style="color:#999">-</span>';const c=val>=0.02?'#E24B4A':val>=0.01?'#EF9F27':'#1D9E75';const w=Math.min(100,Math.round((val/0.05)*100));const lbl=(suppressed?'≤':'')+(val*100).toFixed(2)+'%';return'<div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+w+'%;background:'+c+'"></div></div><span class="bar-val">'+lbl+'</span></div>'}
 function shortName(n){return n.length>24?n.substring(0,22)+'…':n}
 function rankCell(i){return'<td class="rank-cell">'+(i+1)+'</td>'}
 function card(l,v,s){return'<div class="scard"><div class="scard-label">'+l+'</div><div class="scard-val">'+v+'</div><div class="scard-sub">'+s+'</div></div>'}
-function filtered(){return currentType==='all'?DATA:DATA.filter(r=>r.type===currentType)}
+function filtered(){return currentType==='all'?DATA:DATA.filter(r=>r.types&&r.types.includes(currentType))}
 function isHL(name){return highlightTerm&&name.toLowerCase().includes(highlightTerm.toLowerCase())}
 function avg(arr,key){const v=arr.filter(r=>r[key]!=null);return v.length?v.reduce((s,r)=>s+r[key],0)/v.length:null}
 function sortData(data,col,dir){return[...data].sort((a,b)=>{let va=a[col],vb=b[col];if(va==null&&vb==null)return 0;if(va==null)return 1;if(vb==null)return-1;if(typeof va==='string')return dir*va.localeCompare(vb);return dir*(va-vb)})}
@@ -397,7 +399,7 @@ function renderScores(){
     card('Avg Math proficiency',am!=null?(am*100).toFixed(1)+'%':'-',withELA.length+' with scores')+
     card('Top ELA school',top?(top.ela_prof*100).toFixed(0)+'%':'-',top?shortName(top.name):'')+
     card('Lowest ELA school',bot?(bot.ela_prof*100).toFixed(0)+'%':'-',bot?shortName(bot.name):'');
-  document.getElementById('scoreBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+bar(r.sci_prof,'#D85A30')+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('scoreBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+altBadge(r)+'</td><td>'+typeChip(r.type_label)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+bar(r.sci_prof,'#D85A30')+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderGrowth(){
   let d=filtered().filter(r=>r.ela_sgp!=null||r.math_sgp!=null);
@@ -411,11 +413,11 @@ function renderGrowth(){
     card('Avg Math SGP',aM!=null?aM.toFixed(1):'-','50 = typical')+
     card('Top ELA growth',top?top.ela_sgp:'-',top?shortName(top.name):'')+
     card('High growth, lower prof',stars.length,'SGP≥60, ELA prof <75%');
-  document.getElementById('growthBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type)+'</td><td>'+sgpBar(r.ela_sgp)+'</td><td>'+sgpBar(r.math_sgp)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('growthBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+altBadge(r)+'</td><td>'+typeChip(r.type_label)+'</td><td>'+sgpBar(r.ela_sgp)+'</td><td>'+sgpBar(r.math_sgp)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderMilestones(){
   let d=sortData(filtered(),sortCol||'name',sortCol?sortDir:1);
-  document.getElementById('mileBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type)+'</td><td>'+bar(r.kg_ready_pct,'#7C5CD6')+'</td><td>'+bar(r.attendance_pct,'#17629e')+'</td><td>'+bar(r.ninth_on_track_pct,'#1D9E75')+'</td><td>'+bar(r.dual_credit_pct,'#D85A30')+'</td><td>'+bar(r.grad_4yr,'#0f6e56')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('mileBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+altBadge(r)+'</td><td>'+typeChip(r.type_label)+'</td><td>'+bar(r.kg_ready_pct,'#7C5CD6')+'</td><td>'+bar(r.attendance_pct,'#17629e')+'</td><td>'+bar(r.ninth_on_track_pct,'#1D9E75')+'</td><td>'+bar(r.dual_credit_pct,'#D85A30')+'</td><td>'+bar(r.grad_4yr,'#0f6e56')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderDiscipline(){
   let d=filtered().filter(r=>r.disc_rate!=null);
@@ -428,11 +430,11 @@ function renderDiscipline(){
     card('Highest rate',top?(top.disc_rate*100).toFixed(2)+'%':'-',top?shortName(top.name):'')+
     card('Under 1%',withD.filter(r=>r.disc_rate<0.01).length,'schools')+
     card('Over 2%',withD.filter(r=>r.disc_rate>=0.02).length,'schools');
-  document.getElementById('discBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type)+'</td><td>'+discBar(r.disc_rate,r.disc_suppressed)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('discBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+altBadge(r)+'</td><td>'+typeChip(r.type_label)+'</td><td>'+discBar(r.disc_rate,r.disc_suppressed)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderDemographics(){
   let d=sortData(filtered(),sortCol||'frpl_pct',sortCol?sortDir:-1);
-  document.getElementById('demBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.asian_pct)+'</td><td>'+pct(r.white_pct)+'</td><td>'+pct(r.hispanic_pct)+'</td><td>'+pct(r.black_pct)+'</td><td>'+pct(r.ell_pct)+'</td><td>'+pct(r.sped_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('demBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+altBadge(r)+'</td><td>'+typeChip(r.type_label)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.asian_pct)+'</td><td>'+pct(r.white_pct)+'</td><td>'+pct(r.hispanic_pct)+'</td><td>'+pct(r.black_pct)+'</td><td>'+pct(r.ell_pct)+'</td><td>'+pct(r.sped_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 
 /* ---------- scatter (pure canvas) ---------- */
@@ -472,7 +474,7 @@ function renderScatter(){
   data.forEach(r=>{
     const cx=PAD.l+pw*Math.min(r.frpl_pct*100/xmax,1);
     const cy=PAD.t+ph*(1-Math.min(r[metric],1));
-    const color=TYPE_COLORS[r.type]||'#888780';
+    const color=TYPE_COLORS[primaryBand(r.types)]||'#378ADD';
     const hl=isHL(r.name);
     ctx.beginPath();ctx.arc(cx,cy,hl?9:6,0,Math.PI*2);
     ctx.fillStyle=color+(hl?'':'cc');ctx.fill();
@@ -491,7 +493,7 @@ function renderScatter(){
     if(found){
       const metric=document.getElementById('scatterMetric').value;
       tip.style.display='block';tip.style.left=(found.cx+12)+'px';tip.style.top=(found.cy-10)+'px';
-      tip.innerHTML='<strong>'+found.r.name+'</strong><br>FRPL: '+(found.r.frpl_pct*100).toFixed(1)+'% · Proficiency: '+(found.r[metric]*100).toFixed(1)+'%<br>'+found.r.type+' · '+found.r.enrollment+' students';
+      tip.innerHTML='<strong>'+found.r.name+'</strong><br>FRPL: '+(found.r.frpl_pct*100).toFixed(1)+'% · Proficiency: '+(found.r[metric]*100).toFixed(1)+'%<br>'+found.r.type_label+' · '+found.r.enrollment+' students';
       this.style.cursor='pointer';
     }else{tip.style.display='none';this.style.cursor='crosshair'}
   });
@@ -503,7 +505,7 @@ function renderScatter(){
       if(Math.hypot(p.cx-mx,p.cy-my)<10){
         const metric=document.getElementById('scatterMetric').value;
         const mname={ela_prof:'ELA',math_prof:'Math',sci_prof:'Science'}[metric];
-        document.getElementById('scatterInfo').innerHTML='<strong>'+p.r.name+'</strong> - FRPL '+(p.r.frpl_pct*100).toFixed(1)+'% | '+mname+' '+(p.r[metric]*100).toFixed(1)+'% | '+p.r.enrollment+' students | '+p.r.type;
+        document.getElementById('scatterInfo').innerHTML='<strong>'+p.r.name+'</strong> - FRPL '+(p.r.frpl_pct*100).toFixed(1)+'% | '+mname+' '+(p.r[metric]*100).toFixed(1)+'% | '+p.r.enrollment+' students | '+p.r.type_label;
         return;
       }
     }
