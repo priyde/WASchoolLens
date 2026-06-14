@@ -338,8 +338,8 @@ tr.highlighted td.rank-cell{color:#0f3f66}
     <thead><tr>
       <th style="min-width:280px" data-col="chain">Pathway (Elem → Middle → High) <i class="sort-icon"></i></th>
       <th style="min-width:118px" data-col="kg"><span class="tt">KG Ready%<span class="tt-box">Kindergarten readiness at the elementary school. % ready in all 6 WaKIDS domains. The starting point of the pathway.<span class="tt-src">Source: WaKIDS.</span></span></span> <i class="sort-icon"></i><span class="th-sub">at elementary</span></th>
-      <th style="min-width:190px" data-col="elemScore"><span class="tt" id="chainScoreHeader">ELA prof%<span class="tt-box">Proficiency at each step of the pathway, shown Elem → MS → HS. ELA &amp; Math from SBA; Science from WCAS. The arrow compares HS vs. Elem.<span class="tt-src">Sources: SBA grades 3-8 &amp; 10; WCAS grades 5, 8, 11.</span></span></span> <i class="sort-icon"></i><span class="th-sub">Elem → MS → HS</span></th>
-      <th style="min-width:150px" data-col="frplE"><span class="tt">FRPL%<span class="tt-box">Low-income share at each school in the pathway, Elem · MS · HS.<span class="tt-src">Source: OSPI enrollment, Oct 1 snapshot.</span></span></span> <i class="sort-icon"></i><span class="th-sub">Elem · MS · HS</span></th>
+      <th style="min-width:190px" data-col="avgProf"><span class="tt" id="chainScoreHeader">ELA prof%<span class="tt-box">Proficiency at each step of the pathway, shown Elem → MS → HS. The arrow compares HS vs. Elem. Sorting ranks by the average proficiency across Elem, MS &amp; HS.<span class="tt-src">Sources: SBA grades 3-8 &amp; 10; WCAS grades 5, 8, 11.</span></span></span> <i class="sort-icon"></i><span class="th-sub">Elem → MS → HS</span></th>
+      <th style="min-width:150px" data-col="avgFrpl"><span class="tt">FRPL%<span class="tt-box">Low-income share at each school in the pathway, Elem · MS · HS. Sorting ranks by the average across all three.<span class="tt-src">Source: OSPI enrollment, Oct 1 snapshot.</span></span></span> <i class="sort-icon"></i><span class="th-sub">Elem · MS · HS</span></th>
       <th style="min-width:118px" data-col="grad"><span class="tt">Grad 4yr%<span class="tt-box">Four-year graduation rate at the pathway's high school, the end point of the journey.<span class="tt-src">Source: OSPI Graduation file, Four-Year cohort.</span></span></span> <i class="sort-icon"></i><span class="th-sub">at high school</span></th>
       <th style="width:54px" class="rank-col"><span class="tt">Rank<span class="tt-box">School's position when sorted by the current column. Updates automatically as you sort.</span></span></th>
     </tr></thead>
@@ -522,13 +522,17 @@ function chainRows(){
     .filter(c=>hsSel==='all'||c.hs===hsSel)
     .map(c=>{
       const e=byCode[c.elem_code]||{},m=byCode[c.ms_code]||{},h=byCode[c.hs_code]||{};
+      const profVals=[e[key],m[key],h[key]].filter(v=>v!=null);
+      const avgProf=profVals.length?profVals.reduce((a,b)=>a+b,0)/profVals.length:null;
+      const frplVals=[e.frpl_pct,m.frpl_pct,h.frpl_pct].filter(v=>v!=null);
+      const avgFrpl=frplVals.length?frplVals.reduce((a,b)=>a+b,0)/frplVals.length:null;
       return{
         chain:shortSN(c.elem)+' → '+shortSN(c.ms)+' → '+shortSN(c.hs),
         fullChain:c.elem+' → '+c.ms+' → '+c.hs,
         elem:c.elem,ms:c.ms,hs:c.hs,
         kg:e.kg_ready_pct??null,
         eV:e[key]??null,mV:m[key]??null,hV:h[key]??null,
-        elemScore:e[key]??null,
+        avgProf,avgFrpl,
         frplE:e.frpl_pct??null,frplM:m.frpl_pct??null,frplH:h.frpl_pct??null,
         grad:h.grad_4yr??null,
       };
@@ -550,8 +554,8 @@ function renderPathways(){
   const label={ela:'ELA prof%',math:'Math prof%',sci:'Science prof%'}[subj];
   document.getElementById('chainScoreHeader').childNodes[0].nodeValue=label;
   let rows=chainRows();
-  const col=sortCol&&['chain','kg','elemScore','frplE','grad'].includes(sortCol)?sortCol:'chain';
-  rows=sortData(rows,col,sortCol?sortDir:1);
+  const col=sortCol&&['chain','kg','avgProf','avgFrpl','grad'].includes(sortCol)?sortCol:'avgProf';
+  rows=sortData(rows,col,sortCol?sortDir:-1);
   document.getElementById('chainBody').innerHTML=rows.map((r,i)=>{
     const hl=isHL(r.elem)||isHL(r.ms)||isHL(r.hs);
     return'<tr class="'+(hl?'highlighted':'')+'"><td title="'+r.fullChain+'">'+r.chain+'</td><td>'+(r.kg==null?'<span style="color:#999">-</span>':pct(r.kg,0))+'</td><td>'+fmtChainScores(r.eV,r.mV,r.hV)+'</td><td><span class="mini">'+pct(r.frplE,0)+' · '+pct(r.frplM,0)+' · '+pct(r.frplH,0)+'</span></td><td>'+(r.grad==null?'<span style="color:#999">-</span>':pct(r.grad))+'</td>'+rankCell(i)+'</tr>';
