@@ -602,6 +602,7 @@ document.querySelectorAll('.tab').forEach(t=>{
     document.querySelectorAll('th').forEach(x=>x.classList.remove('asc','desc'));
     document.getElementById(activePanel).classList.add('active');
     RENDERS[activePanel]();
+    if(window.refreshTableScrollUI)window.refreshTableScrollUI();
   });
 });
 document.getElementById('typeFilter').addEventListener('change',e=>{currentType=e.target.value;RENDERS[activePanel]()});
@@ -781,11 +782,11 @@ function initAutocomplete(){
   }
 
   function getActiveWrap(){
-    for(const id of TABLE_IDS){
-      const wrap=document.getElementById(id+'Wrap');
-      if(wrap&&wrap.offsetParent!==null)return{id,wrap};
-    }
-    return null;
+    const PANEL_TO_TABLE={scores:'scoreTable',growth:'growthTable',milestones:'mileTable',discipline:'discTable',demographics:'demTable',pathways:'chainTable'};
+    const tid=PANEL_TO_TABLE[activePanel];
+    if(!tid)return null;
+    const wrap=document.getElementById(tid+'Wrap');
+    return wrap?{id:tid,wrap}:null;
   }
 
   function refreshFloatBar(){
