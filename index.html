@@ -46,6 +46,11 @@ td{padding:8px 11px;border-bottom:1px solid #f0ede8;color:#1a1a18;white-space:no
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafaf8}
 tr.highlighted td{background:#CFE6FB!important;border-bottom-color:#aed1f0!important;font-weight:500}
+.sc-name{position:sticky;left:0;z-index:2;background:#fff;min-width:190px;max-width:190px}
+.sc-type{position:sticky;left:212px;z-index:2;background:#fff;box-shadow:3px 0 6px rgba(0,0,0,.07)}
+th.sc-name{background:#f8f7f4;z-index:4}
+th.sc-type{background:#f8f7f4;z-index:4;box-shadow:3px 0 6px rgba(0,0,0,.07)}
+tr.highlighted td.sc-name,tr.highlighted td.sc-type{background:#CFE6FB!important}
 .bar-wrap{display:flex;align-items:center;gap:6px}
 .bar-bg{flex:1;height:10px;background:#f0ede8;border-radius:4px;overflow:hidden;min-width:48px}
 .bar-fill{height:100%;border-radius:4px;transition:width .3s}
@@ -213,13 +218,14 @@ tr.highlighted td.rank-cell{color:#0f3f66}
   <div class="summary-cards" id="scoreCards"></div>
   <div class="table-wrap"><table id="scoreTable">
     <thead><tr>
-      <th style="min-width:210px" data-col="name">School <i class="sort-icon"></i></th>
-      <th data-col="type">Type <i class="sort-icon"></i></th>
+      <th class="sc-name" data-col="name">School <i class="sort-icon"></i></th>
+      <th class="sc-type" data-col="type">Type <i class="sort-icon"></i></th>
       <th style="min-width:150px" data-col="ela_prof"><span class="tt">ELA prof%<span class="tt-box">Percent of students meeting grade-level standard in English Language Arts.<span class="tt-src">Source: Smarter Balanced Assessment (SBA), grades 3-8 &amp; 10. Excludes WA-AIM alternate assessment.</span></span></span> <i class="sort-icon"></i><span class="th-sub">English Language Arts</span></th>
       <th style="min-width:150px" data-col="math_prof"><span class="tt">Math prof%<span class="tt-box">Percent of students meeting grade-level standard in Math.<span class="tt-src">Source: Smarter Balanced Assessment (SBA), grades 3-8 &amp; 10. Excludes WA-AIM alternate assessment.</span></span></span> <i class="sort-icon"></i></th>
       <th style="min-width:150px" data-col="sci_prof"><span class="tt">Science prof%<span class="tt-box">Percent of students meeting grade-level standard in Science.<span class="tt-src">Source: WCAS, Washington Comprehensive Assessment of Science, grades 5, 8 &amp; 11.</span></span></span> <i class="sort-icon"></i></th>
       <th data-col="enrollment"><span class="tt">Enrollment<span class="tt-box">Total number of students enrolled at the school.<span class="tt-src">Source: OSPI enrollment file, October 1, 2024-25 snapshot.</span></span></span> <i class="sort-icon"></i></th>
       <th data-col="frpl_pct"><span class="tt">FRPL%<span class="tt-box">Share of students qualifying for Free &amp; Reduced Price Lunch, the standard proxy for low-income enrollment.<span class="tt-src">Source: OSPI enrollment file, October 1 snapshot.</span></span></span> <i class="sort-icon"></i><span class="th-sub">Low income</span></th>
+      <th data-col="hc_pct"><span class="tt">HC%<span class="tt-box">Percent of students enrolled in the Highly Capable (gifted) program. Schools hosting a self-contained HC program like Quest will show higher HC% and this can skew proficiency scores upward.<span class="tt-src">Source: OSPI enrollment file, October 1 snapshot.</span></span></span> <i class="sort-icon"></i><span class="th-sub">Highly Capable</span></th>
       <th style="width:54px" class="rank-col"><span class="tt">Rank<span class="tt-box">School's position when sorted by the current column. Updates automatically as you sort.</span></span></th>
     </tr></thead>
     <tbody id="scoreBody"></tbody>
@@ -231,13 +237,14 @@ tr.highlighted td.rank-cell{color:#0f3f66}
   <div class="info-note">Median Student Growth Percentile (SGP). 50 = typical growth. Above 50 means students grew faster than academic peers statewide with similar prior scores, regardless of starting level. Calculated for grades 4-8 only. Green ≥ 55 · blue 45-55 · red &lt; 45.</div>
   <div class="table-wrap"><table id="growthTable">
     <thead><tr>
-      <th style="min-width:210px" data-col="name">School <i class="sort-icon"></i></th>
-      <th data-col="type">Type <i class="sort-icon"></i></th>
+      <th class="sc-name" data-col="name">School <i class="sort-icon"></i></th>
+      <th class="sc-type" data-col="type">Type <i class="sort-icon"></i></th>
       <th style="min-width:150px" data-col="ela_sgp"><span class="tt">ELA growth (SGP)<span class="tt-box">Median Student Growth Percentile in ELA. Measures how much students grew compared with peers statewide who had similar prior scores. Requires two consecutive years of test data.<span class="tt-src">Source: OSPI Student Growth file (CEDARS). Spring SBA administrations only.</span></span></span> <i class="sort-icon"></i><span class="th-sub">Student Growth Percentile</span></th>
       <th style="min-width:150px" data-col="math_sgp"><span class="tt">Math growth (SGP)<span class="tt-box">Median Student Growth Percentile in Math, using the same methodology as ELA growth.<span class="tt-src">Source: OSPI Student Growth file (CEDARS).</span></span></span> <i class="sort-icon"></i></th>
       <th style="min-width:140px" data-col="ela_prof">ELA prof% <i class="sort-icon"></i></th>
       <th style="min-width:140px" data-col="math_prof">Math prof% <i class="sort-icon"></i></th>
       <th data-col="frpl_pct">FRPL% <i class="sort-icon"></i><span class="th-sub">Low income</span></th>
+      <th data-col="hc_pct"><span class="tt">HC%<span class="tt-box">Percent of students enrolled in the Highly Capable (gifted) program. Schools hosting a self-contained HC program like Quest will show higher HC% and this can skew proficiency scores upward.<span class="tt-src">Source: OSPI enrollment file, October 1 snapshot.</span></span></span> <i class="sort-icon"></i><span class="th-sub">Highly Capable</span></th>
       <th style="width:54px" class="rank-col"><span class="tt">Rank<span class="tt-box">School's position when sorted by the current column. Updates automatically as you sort.</span></span></th>
     </tr></thead>
     <tbody id="growthBody"></tbody>
@@ -248,8 +255,8 @@ tr.highlighted td.rank-cell{color:#0f3f66}
   <div class="info-note">Milestones along the K-12 journey: kindergarten readiness at the start, attendance throughout, and on-track / dual credit / graduation outcomes in high school. Dashes mean the metric doesn't apply to that school level or was suppressed for privacy.</div>
   <div class="table-wrap"><table id="mileTable">
     <thead><tr>
-      <th style="min-width:210px" data-col="name">School <i class="sort-icon"></i></th>
-      <th data-col="type">Type <i class="sort-icon"></i></th>
+      <th class="sc-name" data-col="name">School <i class="sort-icon"></i></th>
+      <th class="sc-type" data-col="type">Type <i class="sort-icon"></i></th>
       <th style="min-width:130px" data-col="kg_ready_pct"><span class="tt">KG Ready%<span class="tt-box">Percent of entering kindergartners ready in all 6 WaKIDS domains: social-emotional, physical, language, cognitive, literacy, and math. Note: reporting the language &amp; literacy domains is optional for districts, which can affect this number.<span class="tt-src">Source: WaKIDS (Washington Kindergarten Inventory of Developing Skills).</span></span></span> <i class="sort-icon"></i><span class="th-sub">Kindergarten readiness</span></th>
       <th style="min-width:130px" data-col="attendance_pct"><span class="tt">Attendance%<span class="tt-box">Percent of students with fewer than 2 absences per month, OSPI's "Regular Attendance" measure. Both excused and unexcused full-day absences count.<span class="tt-src">Source: OSPI SQSS file (CEDARS attendance records).</span></span></span> <i class="sort-icon"></i><span class="th-sub">Regular attendance</span></th>
       <th style="min-width:130px" data-col="ninth_on_track_pct"><span class="tt">9th On Track%<span class="tt-box">Percent of first-time 9th graders who earned every credit they attempted. A strong early predictor of on-time graduation.<span class="tt-src">Source: OSPI SQSS file. High schools only.</span></span></span> <i class="sort-icon"></i><span class="th-sub">Freshman credit success</span></th>
@@ -267,8 +274,8 @@ tr.highlighted td.rank-cell{color:#0f3f66}
   <div class="info-note">Exclusionary discipline rate = unique students with at least one suspension or expulsion ÷ all students enrolled at any point in the year. Values marked ≤ are privacy-suppressed upper bounds. Lower is better. Green &lt; 1% · amber 1-2% · red &gt; 2%.</div>
   <div class="table-wrap"><table id="discTable">
     <thead><tr>
-      <th style="min-width:210px" data-col="name">School <i class="sort-icon"></i></th>
-      <th data-col="type">Type <i class="sort-icon"></i></th>
+      <th class="sc-name" data-col="name">School <i class="sort-icon"></i></th>
+      <th class="sc-type" data-col="type">Type <i class="sort-icon"></i></th>
       <th style="min-width:160px" data-col="disc_rate"><span class="tt">Discipline rate<span class="tt-box">Unique students receiving one or more exclusionary actions (short/long suspension, expulsion, emergency expulsion) divided by all students enrolled during the year. Pre-K excluded.<span class="tt-src">Source: OSPI Discipline file (CEDARS).</span></span></span> <i class="sort-icon"></i><span class="th-sub">Suspensions / expulsions</span></th>
       <th data-col="enrollment"><span class="tt">Enrollment<span class="tt-box">Total number of students enrolled at the school.<span class="tt-src">Source: OSPI enrollment file, October 1, 2024-25 snapshot.</span></span></span> <i class="sort-icon"></i></th>
       <th data-col="frpl_pct">FRPL% <i class="sort-icon"></i><span class="th-sub">Low income</span></th>
@@ -282,8 +289,8 @@ tr.highlighted td.rank-cell{color:#0f3f66}
 <div id="demographics" class="panel">
   <div class="table-wrap"><table id="demTable">
     <thead><tr>
-      <th style="min-width:210px" data-col="name">School <i class="sort-icon"></i></th>
-      <th data-col="type">Type <i class="sort-icon"></i></th>
+      <th class="sc-name" data-col="name">School <i class="sort-icon"></i></th>
+      <th class="sc-type" data-col="type">Type <i class="sort-icon"></i></th>
       <th data-col="enrollment"><span class="tt">Enrollment<span class="tt-box">Total number of students enrolled at the school.<span class="tt-src">Source: OSPI enrollment file, October 1, 2024-25 snapshot.</span></span></span> <i class="sort-icon"></i></th>
       <th data-col="frpl_pct">FRPL% <i class="sort-icon"></i><span class="th-sub">Low income</span></th>
       <th data-col="asian_pct">Asian% <i class="sort-icon"></i></th>
@@ -413,7 +420,7 @@ function renderScores(){
     card('Avg Math proficiency',am!=null?(am*100).toFixed(1)+'%':'-',withELA.length+' with scores')+
     card('Top ELA school',top?(top.ela_prof*100).toFixed(0)+'%':'-',top?shortName(top.name):'')+
     card('Lowest ELA school',bot?(bot.ela_prof*100).toFixed(0)+'%':'-',bot?shortName(bot.name):'');
-  document.getElementById('scoreBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+bar(r.sci_prof,'#D85A30')+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('scoreBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+bar(r.sci_prof,'#D85A30')+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderGrowth(){
   let d=filtered().filter(r=>r.ela_sgp!=null||r.math_sgp!=null);
@@ -427,7 +434,7 @@ function renderGrowth(){
     card('Avg Math SGP',aM!=null?aM.toFixed(1):'-','50 = typical')+
     card('Top ELA growth',top?top.ela_sgp:'-',top?shortName(top.name):'')+
     card('High growth, lower prof',stars.length,'SGP≥60, ELA prof <75%');
-  document.getElementById('growthBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+sgpBar(r.ela_sgp)+'</td><td>'+sgpBar(r.math_sgp)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('growthBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+sgpBar(r.ela_sgp)+'</td><td>'+sgpBar(r.math_sgp)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderMilestones(){
   let d=sortData(filtered(),sortCol||'name',sortCol?sortDir:1);
