@@ -54,7 +54,13 @@ tr.highlighted td{background:#CFE6FB!important;border-bottom-color:#aed1f0!impor
 .chip-e{background:#ddeeff;color:#1a5fa8}.chip-m{background:#d4f4e8;color:#0f6e56}
 .chip-h{background:#fde8d8;color:#854F0B}.chip-k{background:#fce8f0;color:#993556}
 .chip-k8{background:#e6f3e0;color:#3D7A3A}.chip-612{background:#efe4f7;color:#6B4FA0}
-.alt-badge{display:inline-block;margin-left:4px;padding:1px 5px;border-radius:5px;font-size:9px;font-weight:600;background:#f0ede8;color:#7A6040;letter-spacing:.02em;vertical-align:middle;border:1px solid #d8cfc0;white-space:nowrap}
+.alt-badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:500;letter-spacing:.04em;vertical-align:middle;white-space:nowrap;margin-left:4px;border:none}
+.alt-choice{background:linear-gradient(135deg,#FFF0A0,#F59E0B,#FFF0A0);color:#6B4200;box-shadow:0 1px 3px rgba(245,158,11,.5),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(0,0,0,.1)}
+.alt-reengage{background:linear-gradient(135deg,#E9D9FF,#8B5CF6,#E9D9FF);color:#3B1880;box-shadow:0 1px 3px rgba(139,92,246,.5),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(0,0,0,.1)}
+.alt-speced{background:linear-gradient(135deg,#ADFAE6,#14B8A6,#ADFAE6);color:#083D38;box-shadow:0 1px 3px rgba(20,184,166,.5),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(0,0,0,.1)}
+.alt-voctech{background:linear-gradient(135deg,#BAD8FF,#3B82F6,#BAD8FF);color:#0C2F70;box-shadow:0 1px 3px rgba(59,130,246,.5),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(0,0,0,.1)}
+.alt-inst{background:linear-gradient(135deg,#E8E6E0,#9CA3AF,#E8E6E0);color:#2C2C2A;box-shadow:0 1px 3px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(0,0,0,.1)}
+.alt-other{background:linear-gradient(135deg,#E8E6E0,#9CA3AF,#E8E6E0);color:#2C2C2A;box-shadow:0 1px 3px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(0,0,0,.1)}
 .sort-icon{opacity:.4;margin-left:3px;font-style:normal}
 th.asc .sort-icon::after{content:'↑';opacity:1}
 th.desc .sort-icon::after{content:'↓';opacity:1}
@@ -373,12 +379,14 @@ let sortCol=null,sortDir=1,currentType='all',highlightTerm='',activePanel='score
 /* ---------- formatting helpers ---------- */
 function pct(v,dec){if(v==null)return'-';return(v*100).toFixed(dec==null?1:dec)+'%'}
 function typeChip(label){const m={Elementary:'chip-e',Middle:'chip-m',High:'chip-h','K-8':'chip-k8','6-12':'chip-612','K-12':'chip-k'};return'<span class="chip '+(m[label]||'chip-e')+'">'+label+'</span>'}
-const ALT_LABEL={'A':'Choice','5':'Choice','R':'Re-engage','S':'Spec Ed','I':'Institution','V':'Voc/Tech','Z':'Contract'};
+const ALT_LABEL={'A':'Choice','5':'Choice-Out','R':'Re-engage','S':'Spec Ed','I':'Institution','V':'Voc/Tech','Z':'Contract','N':'Non-Public','X':'College','C':'College','T':'Tribal','Y':'Tribal','J':'Detention','Q':'Tribal'};
+const ALT_CLASS={'A':'alt-choice','5':'alt-choice','R':'alt-reengage','S':'alt-speced','I':'alt-inst','V':'alt-voctech','Z':'alt-other','N':'alt-other','X':'alt-other','C':'alt-other','T':'alt-other','Y':'alt-other','J':'alt-other','Q':'alt-other'};
 function altBadge(r){
   if(!r.is_alt)return'';
   const label=ALT_LABEL[r.school_type_code]||'Alt';
+  const cls=ALT_CLASS[r.school_type_code]||'alt-other';
   const desc=r.school_type_desc||'Non-standard school type';
-  return'<span class="tt alt-badge">'+label+'<span class="tt-box">'+desc+'</span></span>';
+  return'<span class="tt alt-badge '+cls+'">'+label+'<span class="tt-box">'+desc+'</span></span>';
 }
 function primaryBand(types){if(!types)return'Elementary';if(types.includes('High'))return'High';if(types.includes('Middle'))return'Middle';return'Elementary'}
 function bar(val,color){if(val==null)return'<span style="color:#999">-</span>';const w=Math.round(val*100);return'<div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+w+'%;background:'+color+'"></div></div><span class="bar-val">'+(val*100).toFixed(1)+'%</span></div>'}
