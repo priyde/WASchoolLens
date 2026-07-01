@@ -41,6 +41,7 @@ FILES = {
     "sqss":        "SQSS_202425_20260610.xlsx",
     "wakids":      "WaKidsKindergarten_202425_20260610.xlsx",
     "feeders":     "FeederFlow.xlsx",
+    "help_assessment": "HELP_Assessment_Data.xlsx",  # contains SchoolTypeCodes tab
 }
 
 # slug → DistrictCode (OSPI integer identifier)
@@ -101,9 +102,9 @@ ELEM_GRADES = set(GRADE_ORDER[:9])   # Pre-K through 5th
 MID_GRADES  = set(GRADE_ORDER[9:12]) # 6th-8th
 HIGH_GRADES = set(GRADE_ORDER[12:])  # 9th-12th
 
-# Keywords identifying choice / magnet / alternative programs (independent of
-# the grades they serve). Used only for the "Choice" badge, not for filtering.
-ALT_KEYWORDS = [
+# Fallback keyword list, only used for a school if OSPI's CurrentSchoolType
+# field is missing entirely for that school (should be rare).
+ALT_KEYWORDS_FALLBACK = [
     'community school', 'renaissance', 'stella schola',
     'environmental', 'old redmond', 'skill center',
     'international community', 'international school',
@@ -114,9 +115,47 @@ ALT_KEYWORDS = [
     'gibson ek', 'innovation lab', 'tesla stem', 'nikola tesla',
 ]
 
-def is_alt_school(name):
+def is_alt_by_name(name):
     n = name.lower()
-    return any(kw in n for kw in ALT_KEYWORDS)
+    return any(kw in n for kw in ALT_KEYWORDS_FALLBACK)
+
+def read_school_type_codes(help_assessment_path):
+    """Read the SchoolTypeCodes tab from HELP_Assessment_Data.xlsx.
+    Returns {code_str: description_str}"""
+    df = pd.read_excel(help_assessment_path, sheet_name='SchoolTypeCodes')
+    code_col = df.columns[0]   # 'School Type Code'
+    desc_col  = df.columns[1]  # 'School Type'
+    result = {}
+    for _, row in df.iterrows():
+        code = str(row[code_col]).strip()
+        desc = str(row[desc_col]).strip()
+        if code and code != 'nan':
+            result[code] = desc
+    return result
+
+
+def build_school_type_lookup(enr_df, school_type_codes):
+    """OSPI's CurrentSchoolType field marks each school as 'P' (Public School /
+    regular attendance-area school) or another code. Anything other than 'P' is
+    treated as a choice/alternative/special program.
+    Returns {(dist_code, school_code): {'is_alt': bool, 'code': str, 'desc': str}}"""
+    d = enr_df[
+        (enr_df['OrganizationLevel'] == 'School') &
+        (enr_df['GradeLevel'] == 'All Grades')
+    ]
+    out = {}
+    for _, r in d.iterrows():
+        dc = safe_int(r.get('DistrictCode'))
+        sc = safe_int(r.get('SchoolCode'))
+        st = r.get('CurrentSchoolType')
+        if dc and sc and isinstance(st, str) and st.strip():
+            code = st.strip()
+            out[(dc, sc)] = {
+                'is_alt': code.upper() != 'P',
+                'code':   code,
+                'desc':   school_type_codes.get(code, ''),
+            }
+    return out
 
 def classify_by_name(name):
     """Fallback single-band guess, used only if a school has no per-grade
@@ -438,7 +477,7 @@ def extract_feeders(feeders_path, slug, school_name_lookup):
 
 # ── MAIN BUILD ──────────────────────────────────────────────────────────────
 
-def build_district(slug, dist_code, dfs, school_names_all, org_id_bridge, dist_org_ids):
+def build_district(slug, dist_code, dfs, school_names_all, org_id_bridge, dist_org_ids, alt_type_lookup):
     print(f'\nProcessing {DISTRICT_NAMES.get(dist_code, dist_code)} ({slug}) ...')
 
     # School name lookup for this district
@@ -467,12 +506,26 @@ def build_district(slug, dist_code, dfs, school_names_all, org_id_bridge, dist_o
             # to a single-band guess from the school name.
             label = classify_by_name(name)
             types, type_label = [label], label
+        # Prefer OSPI's own CurrentSchoolType field (P = neighborhood school,
+        # anything else = choice/alternative/reengagement/special program).
+        # Only fall back to name-keyword matching if that field is missing.
+        alt_info = alt_type_lookup.get((dist_code, sc))
+        if alt_info is not None:
+            is_alt         = alt_info['is_alt']
+            school_type_code = alt_info['code']
+            school_type_desc = alt_info['desc']
+        else:
+            is_alt         = is_alt_by_name(name)
+            school_type_code = None
+            school_type_desc = None
         rec  = {
-            'school_code': sc,
-            'name':        name,
-            'types':       types,
-            'type_label':  type_label,
-            'is_alt':      is_alt_school(name),
+            'school_code':     sc,
+            'name':            name,
+            'types':           types,
+            'type_label':      type_label,
+            'is_alt':          is_alt,
+            'school_type_code': school_type_code if is_alt else None,
+            'school_type_desc': school_type_desc if is_alt else None,
         }
         rec.update(base)
         for src in (assessment, growth, discipline, graduation, sqss, wakids):
@@ -541,13 +594,18 @@ def main():
 
     # Build reference tables once
     school_names_all, org_id_bridge, dist_org_ids = build_reference_tables(dfs['enrollment'])
+    school_type_codes = read_school_type_codes(
+        os.path.join(INPUT_DIR, FILES['help_assessment'])
+    )
+    alt_type_lookup = build_school_type_lookup(dfs['enrollment'], school_type_codes)
+    print(f'School type codes loaded: {len(school_type_codes)} codes, {len(alt_type_lookup)} school entries')
 
     # Process all districts
     index = []
     for slug, dist_code in DISTRICTS.items():
         index.append(build_district(
             slug, dist_code, dfs,
-            school_names_all, org_id_bridge, dist_org_ids
+            school_names_all, org_id_bridge, dist_org_ids, alt_type_lookup
         ))
 
     # Write district index

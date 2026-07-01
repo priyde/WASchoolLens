@@ -54,7 +54,7 @@ tr.highlighted td{background:#CFE6FB!important;border-bottom-color:#aed1f0!impor
 .chip-e{background:#ddeeff;color:#1a5fa8}.chip-m{background:#d4f4e8;color:#0f6e56}
 .chip-h{background:#fde8d8;color:#854F0B}.chip-k{background:#fce8f0;color:#993556}
 .chip-k8{background:#e6f3e0;color:#3D7A3A}.chip-612{background:#efe4f7;color:#6B4FA0}
-.alt-badge{display:inline-block;margin-left:5px;padding:1px 6px;border-radius:8px;font-size:9.5px;font-weight:600;background:#f0ede8;color:#8B7355;letter-spacing:.03em;vertical-align:middle;border-bottom:1px dotted #b8ab97}
+.alt-badge{display:inline-block;margin-left:4px;padding:1px 5px;border-radius:5px;font-size:9px;font-weight:600;background:#f0ede8;color:#7A6040;letter-spacing:.02em;vertical-align:middle;border:1px solid #d8cfc0;white-space:nowrap}
 .sort-icon{opacity:.4;margin-left:3px;font-style:normal}
 th.asc .sort-icon::after{content:'↑';opacity:1}
 th.desc .sort-icon::after{content:'↓';opacity:1}
@@ -141,7 +141,7 @@ tr.highlighted td.rank-cell{color:#0f3f66}
     <select id="districtSel"></select>
   </div>
   <div class="ctrl-group">
-    <div class="ctrl-label tt">School type<span class="tt-box">Filters by the grades a school actually serves. Schools spanning multiple levels (e.g. a 6-12 school) appear under both Middle and High School. Choice/magnet programs are marked with a small "Choice" badge wherever they appear.</span></div>
+    <div class="ctrl-label tt">School type<span class="tt-box">Filters by the grades a school actually serves. Schools spanning multiple levels (e.g. a 6-12 school) appear under both Middle and High School. Non-standard schools carry a small badge (Choice, Re-engage, Spec Ed, etc.) in the Type column showing their OSPI classification.</span></div>
     <select id="typeFilter">
       <option value="all">All types</option>
       <option value="Elementary">Elementary</option>
@@ -188,7 +188,7 @@ tr.highlighted td.rank-cell{color:#0f3f66}
       <div class="glossary-section">Data &amp; organizations</div>
       <div class="glossary-item"><span class="glossary-term">OSPI</span><span class="glossary-def">Office of Superintendent of Public Instruction: WA State's education department and source of all data here</span></div>
       <div class="glossary-item"><span class="glossary-term">N&lt;10 / DAT</span><span class="glossary-def">Values hidden by OSPI when student counts are small, to protect privacy (Disclosure Avoidance)</span></div>
-      <div class="glossary-item"><span class="glossary-term">Choice badge</span><span class="glossary-def">Marks choice, magnet, or alternative programs. Enrollment is often selective, so compare with care. These schools still appear under their actual grade-level filters (Elementary/Middle/High)</span></div>
+      <div class="glossary-item"><span class="glossary-term">Alt badge</span><span class="glossary-def">Small label beside the School Type chip showing a school's OSPI classification: Choice (alternative w/ district enrollment), Re-engage (reengagement program), Spec Ed (special education school), Voc/Tech (vocational/technical skill center), or Institution. Hover for the full OSPI description. These schools appear in their actual grade-level filters alongside regular schools.</span></div>
     </div>
   </div>
 </div>
@@ -373,7 +373,13 @@ let sortCol=null,sortDir=1,currentType='all',highlightTerm='',activePanel='score
 /* ---------- formatting helpers ---------- */
 function pct(v,dec){if(v==null)return'-';return(v*100).toFixed(dec==null?1:dec)+'%'}
 function typeChip(label){const m={Elementary:'chip-e',Middle:'chip-m',High:'chip-h','K-8':'chip-k8','6-12':'chip-612','K-12':'chip-k'};return'<span class="chip '+(m[label]||'chip-e')+'">'+label+'</span>'}
-function altBadge(r){return r.is_alt?'<span class="tt alt-badge">Choice<span class="tt-box">This is a choice, magnet, or alternative program. Enrollment may be selective, so compare scores and demographics with care.</span></span>':''}
+const ALT_LABEL={'A':'Choice','5':'Choice','R':'Re-engage','S':'Spec Ed','I':'Institution','V':'Voc/Tech','Z':'Contract'};
+function altBadge(r){
+  if(!r.is_alt)return'';
+  const label=ALT_LABEL[r.school_type_code]||'Alt';
+  const desc=r.school_type_desc||'Non-standard school type';
+  return'<span class="tt alt-badge">'+label+'<span class="tt-box">'+desc+'</span></span>';
+}
 function primaryBand(types){if(!types)return'Elementary';if(types.includes('High'))return'High';if(types.includes('Middle'))return'Middle';return'Elementary'}
 function bar(val,color){if(val==null)return'<span style="color:#999">-</span>';const w=Math.round(val*100);return'<div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+w+'%;background:'+color+'"></div></div><span class="bar-val">'+(val*100).toFixed(1)+'%</span></div>'}
 function sgpBar(val){if(val==null)return'<span style="color:#999">-</span>';const c=val>=55?'#1D9E75':val>=45?'#378ADD':'#D85A30';return'<div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+Math.round(val)+'%;background:'+c+'"></div></div><span class="bar-val">'+val+'</span></div>'}
@@ -399,7 +405,7 @@ function renderScores(){
     card('Avg Math proficiency',am!=null?(am*100).toFixed(1)+'%':'-',withELA.length+' with scores')+
     card('Top ELA school',top?(top.ela_prof*100).toFixed(0)+'%':'-',top?shortName(top.name):'')+
     card('Lowest ELA school',bot?(bot.ela_prof*100).toFixed(0)+'%':'-',bot?shortName(bot.name):'');
-  document.getElementById('scoreBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+altBadge(r)+'</td><td>'+typeChip(r.type_label)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+bar(r.sci_prof,'#D85A30')+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('scoreBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+bar(r.sci_prof,'#D85A30')+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderGrowth(){
   let d=filtered().filter(r=>r.ela_sgp!=null||r.math_sgp!=null);
@@ -413,11 +419,11 @@ function renderGrowth(){
     card('Avg Math SGP',aM!=null?aM.toFixed(1):'-','50 = typical')+
     card('Top ELA growth',top?top.ela_sgp:'-',top?shortName(top.name):'')+
     card('High growth, lower prof',stars.length,'SGP≥60, ELA prof <75%');
-  document.getElementById('growthBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+altBadge(r)+'</td><td>'+typeChip(r.type_label)+'</td><td>'+sgpBar(r.ela_sgp)+'</td><td>'+sgpBar(r.math_sgp)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('growthBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+sgpBar(r.ela_sgp)+'</td><td>'+sgpBar(r.math_sgp)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderMilestones(){
   let d=sortData(filtered(),sortCol||'name',sortCol?sortDir:1);
-  document.getElementById('mileBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+altBadge(r)+'</td><td>'+typeChip(r.type_label)+'</td><td>'+bar(r.kg_ready_pct,'#7C5CD6')+'</td><td>'+bar(r.attendance_pct,'#17629e')+'</td><td>'+bar(r.ninth_on_track_pct,'#1D9E75')+'</td><td>'+bar(r.dual_credit_pct,'#D85A30')+'</td><td>'+bar(r.grad_4yr,'#0f6e56')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('mileBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+bar(r.kg_ready_pct,'#7C5CD6')+'</td><td>'+bar(r.attendance_pct,'#17629e')+'</td><td>'+bar(r.ninth_on_track_pct,'#1D9E75')+'</td><td>'+bar(r.dual_credit_pct,'#D85A30')+'</td><td>'+bar(r.grad_4yr,'#0f6e56')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderDiscipline(){
   let d=filtered().filter(r=>r.disc_rate!=null);
@@ -430,11 +436,11 @@ function renderDiscipline(){
     card('Highest rate',top?(top.disc_rate*100).toFixed(2)+'%':'-',top?shortName(top.name):'')+
     card('Under 1%',withD.filter(r=>r.disc_rate<0.01).length,'schools')+
     card('Over 2%',withD.filter(r=>r.disc_rate>=0.02).length,'schools');
-  document.getElementById('discBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+altBadge(r)+'</td><td>'+typeChip(r.type_label)+'</td><td>'+discBar(r.disc_rate,r.disc_suppressed)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('discBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+discBar(r.disc_rate,r.disc_suppressed)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderDemographics(){
   let d=sortData(filtered(),sortCol||'frpl_pct',sortCol?sortDir:-1);
-  document.getElementById('demBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+altBadge(r)+'</td><td>'+typeChip(r.type_label)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.asian_pct)+'</td><td>'+pct(r.white_pct)+'</td><td>'+pct(r.hispanic_pct)+'</td><td>'+pct(r.black_pct)+'</td><td>'+pct(r.ell_pct)+'</td><td>'+pct(r.sped_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('demBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.asian_pct)+'</td><td>'+pct(r.white_pct)+'</td><td>'+pct(r.hispanic_pct)+'</td><td>'+pct(r.black_pct)+'</td><td>'+pct(r.ell_pct)+'</td><td>'+pct(r.sped_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 
 /* ---------- scatter (pure canvas) ---------- */
