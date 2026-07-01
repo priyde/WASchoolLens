@@ -38,7 +38,13 @@ select:focus,input:focus{border-color:#17629e}
 .scard-label{font-size:11px;color:#6b6b67;margin-bottom:4px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-family:'Inter',sans-serif}
 .scard-val{font-size:22px;font-weight:700;color:#0f3f66;font-family:'Inter',sans-serif;letter-spacing:-.02em}
 .scard-sub{font-size:11px;color:#6b6b67;margin-top:2px;font-weight:400}
+.table-outer{position:relative}
 .table-wrap{overflow-x:auto;border:1px solid #e0ddd5;border-radius:10px;background:#fff}
+.fade-cue{position:absolute;top:0;right:1px;bottom:0;width:30px;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.96) 65%);opacity:0;transition:opacity .15s;border-radius:0 9px 9px 0}
+.fade-cue.show{opacity:1}
+.float-scroll{position:fixed;bottom:0;left:0;right:0;height:14px;overflow-x:auto;overflow-y:hidden;z-index:60;display:none;background:#fff;border-top:1px solid #e0ddd5;box-shadow:0 -2px 6px rgba(0,0,0,.06)}
+.float-scroll.show{display:block}
+.float-scroll-inner{height:1px}
 table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
 th{padding:9px 11px;text-align:left;font-size:11px;font-weight:600;color:#6b6b67;background:#f8f7f4;border-bottom:1px solid #e0ddd5;cursor:pointer;white-space:nowrap;user-select:none;position:sticky;top:0;z-index:2;letter-spacing:.04em;font-family:'Inter',sans-serif;text-transform:uppercase}
 th:hover{color:#0f3f66;background:#d8d3cc}
@@ -217,7 +223,7 @@ tr.highlighted td.rank-cell{color:#0f3f66}
 
 <div id="scores" class="panel active">
   <div class="summary-cards" id="scoreCards"></div>
-  <div class="table-wrap"><table id="scoreTable">
+  <div class="table-outer"><div class="table-wrap" id="scoreTableWrap"><table id="scoreTable">
     <thead><tr>
       <th class="sc-name" data-col="name">School <i class="sort-icon"></i></th>
       <th class="sc-type" data-col="type">Type <i class="sort-icon"></i></th>
@@ -230,13 +236,13 @@ tr.highlighted td.rank-cell{color:#0f3f66}
       <th style="width:50px" class="rank-col"><span class="tt">Rank<span class="tt-box">School's position when sorted by the current column. Updates automatically as you sort.</span></span></th>
     </tr></thead>
     <tbody id="scoreBody"></tbody>
-  </table></div>
+  </table></div><div class="fade-cue" id="scoreTableFade"></div></div>
 </div>
 
 <div id="growth" class="panel">
   <div class="summary-cards" id="growthCards"></div>
   <div class="info-note">Median Student Growth Percentile (SGP). 50 = typical growth. Above 50 means students grew faster than academic peers statewide with similar prior scores, regardless of starting level. Calculated for grades 4-8 only. Green ≥ 55 · blue 45-55 · red &lt; 45.</div>
-  <div class="table-wrap"><table id="growthTable">
+  <div class="table-outer"><div class="table-wrap" id="growthTableWrap"><table id="growthTable">
     <thead><tr>
       <th class="sc-name" data-col="name">School <i class="sort-icon"></i></th>
       <th class="sc-type" data-col="type">Type <i class="sort-icon"></i></th>
@@ -249,12 +255,12 @@ tr.highlighted td.rank-cell{color:#0f3f66}
       <th style="width:50px" class="rank-col"><span class="tt">Rank<span class="tt-box">School's position when sorted by the current column. Updates automatically as you sort.</span></span></th>
     </tr></thead>
     <tbody id="growthBody"></tbody>
-  </table></div>
+  </table></div><div class="fade-cue" id="growthTableFade"></div></div>
 </div>
 
 <div id="milestones" class="panel">
   <div class="info-note">Milestones along the K-12 journey: kindergarten readiness at the start, attendance throughout, and on-track / dual credit / graduation outcomes in high school. Dashes mean the metric doesn't apply to that school level or was suppressed for privacy.</div>
-  <div class="table-wrap"><table id="mileTable">
+  <div class="table-outer"><div class="table-wrap" id="mileTableWrap"><table id="mileTable">
     <thead><tr>
       <th class="sc-name" data-col="name">School <i class="sort-icon"></i></th>
       <th class="sc-type" data-col="type">Type <i class="sort-icon"></i></th>
@@ -267,13 +273,13 @@ tr.highlighted td.rank-cell{color:#0f3f66}
       <th style="width:50px" class="rank-col"><span class="tt">Rank<span class="tt-box">School's position when sorted by the current column. Updates automatically as you sort.</span></span></th>
     </tr></thead>
     <tbody id="mileBody"></tbody>
-  </table></div>
+  </table></div><div class="fade-cue" id="mileTableFade"></div></div>
 </div>
 
 <div id="discipline" class="panel">
   <div class="summary-cards" id="discCards"></div>
   <div class="info-note">Exclusionary discipline rate = unique students with at least one suspension or expulsion ÷ all students enrolled at any point in the year. Values marked ≤ are privacy-suppressed upper bounds. Lower is better. Green &lt; 1% · amber 1-2% · red &gt; 2%.</div>
-  <div class="table-wrap"><table id="discTable">
+  <div class="table-outer"><div class="table-wrap" id="discTableWrap"><table id="discTable">
     <thead><tr>
       <th class="sc-name" data-col="name">School <i class="sort-icon"></i></th>
       <th class="sc-type" data-col="type">Type <i class="sort-icon"></i></th>
@@ -284,11 +290,11 @@ tr.highlighted td.rank-cell{color:#0f3f66}
       <th style="width:50px" class="rank-col"><span class="tt">Rank<span class="tt-box">School's position when sorted by the current column. Updates automatically as you sort.</span></span></th>
     </tr></thead>
     <tbody id="discBody"></tbody>
-  </table></div>
+  </table></div><div class="fade-cue" id="discTableFade"></div></div>
 </div>
 
 <div id="demographics" class="panel">
-  <div class="table-wrap"><table id="demTable">
+  <div class="table-outer"><div class="table-wrap" id="demTableWrap"><table id="demTable">
     <thead><tr>
       <th class="sc-name" data-col="name">School <i class="sort-icon"></i></th>
       <th class="sc-type" data-col="type">Type <i class="sort-icon"></i></th>
@@ -304,7 +310,7 @@ tr.highlighted td.rank-cell{color:#0f3f66}
       <th style="width:50px" class="rank-col"><span class="tt">Rank<span class="tt-box">School's position when sorted by the current column. Updates automatically as you sort.</span></span></th>
     </tr></thead>
     <tbody id="demBody"></tbody>
-  </table></div>
+  </table></div><div class="fade-cue" id="demTableFade"></div></div>
 </div>
 
 <div id="scatter" class="panel">
@@ -348,7 +354,7 @@ tr.highlighted td.rank-cell{color:#0f3f66}
       </select>
     </div>
   </div>
-  <div class="table-wrap"><table id="chainTable">
+  <div class="table-outer"><div class="table-wrap" id="chainTableWrap"><table id="chainTable">
     <thead><tr>
       <th style="min-width:280px" data-col="chain">Pathway (Elem → Middle → High) <i class="sort-icon"></i></th>
       <th style="min-width:118px" data-col="kg"><span class="tt">KG Ready%<span class="tt-box">Kindergarten readiness at the elementary school. % ready in all 6 WaKIDS domains. The starting point of the pathway.<span class="tt-src">Source: WaKIDS.</span></span></span> <i class="sort-icon"></i><span class="th-sub">at elementary</span></th>
@@ -358,7 +364,7 @@ tr.highlighted td.rank-cell{color:#0f3f66}
       <th style="width:54px" class="rank-col"><span class="tt">Rank<span class="tt-box">School's position when sorted by the current column. Updates automatically as you sort.</span></span></th>
     </tr></thead>
     <tbody id="chainBody"></tbody>
-  </table></div>
+  </table></div><div class="fade-cue" id="chainTableFade"></div></div>
 </div>
 
 </div><!-- /main -->
@@ -751,6 +757,101 @@ function initAutocomplete(){
     else if(e.key==='Escape'){list.style.display='none';}
   });
 }
+
+/* ---------- table scroll helpers: fade cue + floating scrollbar ---------- */
+(function(){
+  const TABLE_IDS=['scoreTable','growthTable','mileTable','discTable','demTable','chainTable'];
+
+  // Floating scrollbar (single shared element, synced to whichever table is active)
+  const floatBar=document.createElement('div');
+  floatBar.className='float-scroll';
+  floatBar.id='floatScroll';
+  const floatInner=document.createElement('div');
+  floatInner.className='float-scroll-inner';
+  floatBar.appendChild(floatInner);
+  document.body.appendChild(floatBar);
+
+  let syncing=false;
+
+  function updateFade(wrap,fade){
+    if(!wrap||!fade)return;
+    const needsScroll=wrap.scrollWidth>wrap.clientWidth+2;
+    const atEnd=wrap.scrollLeft+wrap.clientWidth>=wrap.scrollWidth-2;
+    fade.classList.toggle('show',needsScroll&&!atEnd);
+  }
+
+  function getActiveWrap(){
+    for(const id of TABLE_IDS){
+      const wrap=document.getElementById(id+'Wrap');
+      if(wrap&&wrap.offsetParent!==null)return{id,wrap};
+    }
+    return null;
+  }
+
+  function refreshFloatBar(){
+    const active=getActiveWrap();
+    if(!active){floatBar.classList.remove('show');return;}
+    const{wrap}=active;
+    const needsScroll=wrap.scrollWidth>wrap.clientWidth+2;
+    if(!needsScroll){floatBar.classList.remove('show');return;}
+    const rect=wrap.getBoundingClientRect();
+    const vh=window.innerHeight;
+    // Native scrollbar (bottom edge of wrap) is visible on screen -> hide floating bar
+    const nativeVisible=rect.bottom<=vh&&rect.bottom>0;
+    // Table is fully out of view (above or below viewport) -> hide floating bar
+    const inView=rect.top<vh&&rect.bottom>0;
+    if(!inView||nativeVisible){
+      floatBar.classList.remove('show');
+      return;
+    }
+    floatBar.classList.add('show');
+    floatInner.style.width=wrap.scrollWidth+'px';
+    if(!syncing){
+      syncing=true;
+      floatBar.scrollLeft=wrap.scrollLeft;
+      syncing=false;
+    }
+  }
+
+  // Wire up scroll listeners for each table-wrap (fade cue + sync float bar)
+  TABLE_IDS.forEach(id=>{
+    const wrap=document.getElementById(id+'Wrap');
+    const fade=document.getElementById(id+'Fade');
+    if(!wrap)return;
+    wrap.addEventListener('scroll',()=>{
+      updateFade(wrap,fade);
+      if(!syncing){
+        syncing=true;
+        floatBar.scrollLeft=wrap.scrollLeft;
+        syncing=false;
+      }
+    });
+  });
+
+  floatBar.addEventListener('scroll',()=>{
+    const active=getActiveWrap();
+    if(!active||syncing)return;
+    syncing=true;
+    active.wrap.scrollLeft=floatBar.scrollLeft;
+    syncing=false;
+  });
+
+  window.addEventListener('scroll',refreshFloatBar,{passive:true});
+  window.addEventListener('resize',refreshFloatBar);
+
+  // Expose a refresh hook so render functions can call it after re-drawing table content
+  window.refreshTableScrollUI=function(){
+    TABLE_IDS.forEach(id=>{
+      const wrap=document.getElementById(id+'Wrap');
+      const fade=document.getElementById(id+'Fade');
+      updateFade(wrap,fade);
+    });
+    refreshFloatBar();
+  };
+
+  // Initial pass + periodic safety refresh (covers tab switches, data loads)
+  setInterval(window.refreshTableScrollUI,600);
+})();
 
 init();
 </script>
