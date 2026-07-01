@@ -39,7 +39,7 @@ select:focus,input:focus{border-color:#17629e}
 .scard-val{font-size:22px;font-weight:700;color:#0f3f66;font-family:'Inter',sans-serif;letter-spacing:-.02em}
 .scard-sub{font-size:11px;color:#6b6b67;margin-top:2px;font-weight:400}
 .table-wrap{overflow-x:auto;border:1px solid #e0ddd5;border-radius:10px;background:#fff}
-table{width:100%;border-collapse:collapse;font-size:12px}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
 th{padding:9px 11px;text-align:left;font-size:11px;font-weight:600;color:#6b6b67;background:#f8f7f4;border-bottom:1px solid #e0ddd5;cursor:pointer;white-space:nowrap;user-select:none;position:sticky;top:0;z-index:2;letter-spacing:.04em;font-family:'Inter',sans-serif;text-transform:uppercase}
 th:hover{color:#0f3f66;background:#d8d3cc}
 td{padding:8px 11px;border-bottom:1px solid #f0ede8;color:#1a1a18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px;font-weight:400}
@@ -420,7 +420,7 @@ function renderScores(){
     card('Avg Math proficiency',am!=null?(am*100).toFixed(1)+'%':'-',withELA.length+' with scores')+
     card('Top ELA school',top?(top.ela_prof*100).toFixed(0)+'%':'-',top?shortName(top.name):'')+
     card('Lowest ELA school',bot?(bot.ela_prof*100).toFixed(0)+'%':'-',bot?shortName(bot.name):'');
-  document.getElementById('scoreBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+bar(r.sci_prof,'#D85A30')+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('scoreBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td class=\"sc-name\" title="'+r.name+'">'+r.name+'</td><td>class=\"sc-type\" '+typeChip(r.type_label)+altBadge(r)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+bar(r.sci_prof,'#D85A30')+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderGrowth(){
   let d=filtered().filter(r=>r.ela_sgp!=null||r.math_sgp!=null);
@@ -434,11 +434,11 @@ function renderGrowth(){
     card('Avg Math SGP',aM!=null?aM.toFixed(1):'-','50 = typical')+
     card('Top ELA growth',top?top.ela_sgp:'-',top?shortName(top.name):'')+
     card('High growth, lower prof',stars.length,'SGP≥60, ELA prof <75%');
-  document.getElementById('growthBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+sgpBar(r.ela_sgp)+'</td><td>'+sgpBar(r.math_sgp)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('growthBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td class=\"sc-name\" title="'+r.name+'">'+r.name+'</td><td>class=\"sc-type\" '+typeChip(r.type_label)+altBadge(r)+'</td><td>'+sgpBar(r.ela_sgp)+'</td><td>'+sgpBar(r.math_sgp)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td><td>'+bar(r.math_prof,'#1D9E75')+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderMilestones(){
   let d=sortData(filtered(),sortCol||'name',sortCol?sortDir:1);
-  document.getElementById('mileBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+bar(r.kg_ready_pct,'#7C5CD6')+'</td><td>'+bar(r.attendance_pct,'#17629e')+'</td><td>'+bar(r.ninth_on_track_pct,'#1D9E75')+'</td><td>'+bar(r.dual_credit_pct,'#D85A30')+'</td><td>'+bar(r.grad_4yr,'#0f6e56')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('mileBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td class=\"sc-name\" title="'+r.name+'">'+r.name+'</td><td>class=\"sc-type\" '+typeChip(r.type_label)+altBadge(r)+'</td><td>'+bar(r.kg_ready_pct,'#7C5CD6')+'</td><td>'+bar(r.attendance_pct,'#17629e')+'</td><td>'+bar(r.ninth_on_track_pct,'#1D9E75')+'</td><td>'+bar(r.dual_credit_pct,'#D85A30')+'</td><td>'+bar(r.grad_4yr,'#0f6e56')+'</td><td>'+pct(r.frpl_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderDiscipline(){
   let d=filtered().filter(r=>r.disc_rate!=null);
@@ -451,11 +451,11 @@ function renderDiscipline(){
     card('Highest rate',top?(top.disc_rate*100).toFixed(2)+'%':'-',top?shortName(top.name):'')+
     card('Under 1%',withD.filter(r=>r.disc_rate<0.01).length,'schools')+
     card('Over 2%',withD.filter(r=>r.disc_rate>=0.02).length,'schools');
-  document.getElementById('discBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+discBar(r.disc_rate,r.disc_suppressed)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('discBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td class=\"sc-name\" title="'+r.name+'">'+r.name+'</td><td>class=\"sc-type\" '+typeChip(r.type_label)+altBadge(r)+'</td><td>'+discBar(r.disc_rate,r.disc_suppressed)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+bar(r.ela_prof,'#378ADD')+'</td>'+rankCell(i)+'</tr>').join('');
 }
 function renderDemographics(){
   let d=sortData(filtered(),sortCol||'frpl_pct',sortCol?sortDir:-1);
-  document.getElementById('demBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td title="'+r.name+'">'+r.name+'</td><td>'+typeChip(r.type_label)+altBadge(r)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.asian_pct)+'</td><td>'+pct(r.white_pct)+'</td><td>'+pct(r.hispanic_pct)+'</td><td>'+pct(r.black_pct)+'</td><td>'+pct(r.ell_pct)+'</td><td>'+pct(r.sped_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
+  document.getElementById('demBody').innerHTML=d.map((r,i)=>'<tr class="'+(isHL(r.name)?'highlighted':'')+'"><td class=\"sc-name\" title="'+r.name+'">'+r.name+'</td><td>class=\"sc-type\" '+typeChip(r.type_label)+altBadge(r)+'</td><td>'+r.enrollment+'</td><td>'+pct(r.frpl_pct)+'</td><td>'+pct(r.asian_pct)+'</td><td>'+pct(r.white_pct)+'</td><td>'+pct(r.hispanic_pct)+'</td><td>'+pct(r.black_pct)+'</td><td>'+pct(r.ell_pct)+'</td><td>'+pct(r.sped_pct)+'</td><td>'+pct(r.hc_pct)+'</td>'+rankCell(i)+'</tr>').join('');
 }
 
 /* ---------- scatter (pure canvas) ---------- */
