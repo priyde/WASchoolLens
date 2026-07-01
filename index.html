@@ -42,15 +42,16 @@ select:focus,input:focus{border-color:#17629e}
 table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
 th{padding:9px 11px;text-align:left;font-size:11px;font-weight:600;color:#6b6b67;background:#f8f7f4;border-bottom:1px solid #e0ddd5;cursor:pointer;white-space:nowrap;user-select:none;position:sticky;top:0;z-index:2;letter-spacing:.04em;font-family:'Inter',sans-serif;text-transform:uppercase}
 th:hover{color:#0f3f66;background:#d8d3cc}
-td{padding:8px 11px;border-bottom:1px solid #f0ede8;color:#1a1a18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px;font-weight:400}
+td{padding:8px 11px;border-bottom:1px solid #f0ede8;color:#1a1a18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:400}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafaf8}
 tr.highlighted td{background:#CFE6FB!important;border-bottom-color:#aed1f0!important;font-weight:500}
-.sc-name{position:sticky;left:0;z-index:2;background:#fff;min-width:190px;max-width:190px}
-.sc-type{position:sticky;left:212px;z-index:2;background:#fff;box-shadow:3px 0 6px rgba(0,0,0,.07)}
+.sc-name{position:sticky;left:0;z-index:2;background:#fff;width:200px;min-width:200px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-type{position:sticky;left:200px;z-index:2;background:#fff;box-shadow:3px 0 5px rgba(0,0,0,.08);width:140px;min-width:140px;white-space:nowrap;overflow:visible}
 th.sc-name{background:#f8f7f4;z-index:4}
-th.sc-type{background:#f8f7f4;z-index:4;box-shadow:3px 0 6px rgba(0,0,0,.07)}
+th.sc-type{background:#f8f7f4;z-index:4;box-shadow:3px 0 5px rgba(0,0,0,.08)}
 tr.highlighted td.sc-name,tr.highlighted td.sc-type{background:#CFE6FB!important}
+#scoreTable,#growthTable,#mileTable,#discTable,#demTable{table-layout:fixed}
 .bar-wrap{display:flex;align-items:center;gap:6px}
 .bar-bg{flex:1;height:10px;background:#f0ede8;border-radius:4px;overflow:hidden;min-width:48px}
 .bar-fill{height:100%;border-radius:4px;transition:width .3s}
