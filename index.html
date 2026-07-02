@@ -26,10 +26,10 @@ body{font-family:'Inter',ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe U
 .ctrl-label{font-size:11px;color:#6b6b67;text-transform:uppercase;letter-spacing:.04em;font-weight:600}
 select,input[type=text]{font-size:13px;padding:7px 10px;border:1px solid #d0cdc5;border-radius:8px;background:#fff;color:#1a1a18;min-width:150px;outline:none}
 select:focus,input:focus{border-color:#17629e}
-.tabs{display:flex;gap:6px;margin-bottom:18px;border-bottom:1px solid #e0ddd5;flex-wrap:nowrap;padding:10px 2px 8px;overflow-x:auto;overflow-y:visible;scrollbar-width:thin}
+.tabs{display:flex;gap:3px;margin-bottom:18px;border-bottom:1px solid #e0ddd5;flex-wrap:nowrap;padding:10px 2px 8px;overflow-x:auto;overflow-y:visible;scrollbar-width:thin}
 .tabs::-webkit-scrollbar{height:5px}
 .tabs::-webkit-scrollbar-thumb{background:#d0cdc5;border-radius:3px}
-.tab{position:relative;padding:10px 18px;font-size:14px;font-weight:500;border:1px solid transparent;background:none;color:#5b5a55;cursor:pointer;border-radius:22px;transition:all .15s;font-family:'Inter',sans-serif;flex-shrink:0;white-space:nowrap}
+.tab{position:relative;padding:8px 11px;font-size:13px;font-weight:500;border:1px solid transparent;background:none;color:#5b5a55;cursor:pointer;border-radius:20px;transition:all .15s;font-family:'Inter',sans-serif;flex-shrink:0;white-space:nowrap}
 .tab:hover{color:#0f3f66;background:#eef2f7;border-color:#dbe6f0}
 .tab.active{color:#fff;font-weight:600;background:linear-gradient(135deg,#17629e 0%,#0f3f66 100%);box-shadow:0 3px 10px rgba(15,63,102,.28);border-color:transparent}
 .tab-badge{position:absolute;top:-7px;right:-6px;background:#D85A30;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:9px;letter-spacing:.04em;box-shadow:0 1px 4px rgba(0,0,0,.25);pointer-events:none}
@@ -40,7 +40,9 @@ select:focus,input:focus{border-color:#17629e}
 .lb-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
 .lb-table th{padding:8px 9px;text-align:left;font-size:10.5px;font-weight:600;color:#6b6b67;background:#f8f7f4;border-bottom:1px solid #e0ddd5;text-transform:uppercase;letter-spacing:.03em}
 .lb-table td{padding:8px 9px;border-bottom:1px solid #f0ede8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:1px}
-.lb-table td.lb-name{font-weight:500;max-width:180px}
+.lb-table td.lb-name{font-weight:500;max-width:210px;display:flex;align-items:center;gap:4px;overflow:hidden}
+.lb-table td.lb-name .lb-name-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.lb-table td.lb-name .alt-badge{flex-shrink:0}
 .lb-table td.lb-dist{color:#6b6b67;font-size:11px;max-width:130px}
 .lb-rank{font-weight:700;color:#8a5e0a;text-align:center}
 .lb-table tr:last-child td{border-bottom:none}
@@ -237,7 +239,7 @@ tr.highlighted td.rank-cell{color:#0f3f66}
   <button class="tab tt" data-panel="demographics">👥 Demographics<span class="tt-box">Enrollment counts and the ethnic, income, and program makeup of each school.<span class="tt-src">Source: OSPI enrollment file, Oct 1 2024-25 snapshot.</span></span></button>
   <button class="tab tt" data-panel="scatter">🔍 Score vs. FRPL<span class="tt-box">A scatter plot comparing each school's proficiency to its low-income (FRPL) rate. Reveals which schools over- or under-perform their demographics.<span class="tt-src">Source: OSPI assessment &amp; enrollment files.</span></span></button>
   <button class="tab tt" data-panel="pathways">🏫 K-12 Pathways<span class="tab-badge">NEW</span><span class="tt-box">Follow a complete K-12 journey (elementary to middle to high school) based on official district feeder patterns, with scores and milestones at every step.<span class="tt-src">Source: district feeder pattern documents + all metrics above.</span></span></button>
-  <button class="tab tt" data-panel="leaderboard">🏆 State Leaderboard<span class="tab-badge gold">NEW</span><span class="tt-box">See how schools stack up against every other school in Washington, not just their own district. Pick a metric and see who's #1 statewide.<span class="tt-src">Schools under 100 students, and institutional/special-ed/reengagement programs, are excluded for fair comparison. Choice and magnet programs (marked with a badge) are included.</span></span></button>
+  <button class="tab tt" data-panel="leaderboard">🏆 Leaderboard<span class="tab-badge gold">NEW</span><span class="tt-box">See how schools stack up against every other school in Washington, not just their own district. Pick a metric and see who's #1 statewide.<span class="tt-src">Schools under 100 students, and institutional/special-ed/reengagement programs, are excluded for fair comparison. Choice and magnet programs (marked with a badge) are included.</span></span></button>
 </div>
 
 <div id="scores" class="panel active">
@@ -688,7 +690,7 @@ async function loadAllSchoolsForLeaderboard(){
 }
 
 function lbRow(r,i,metricKey){
-  return'<tr><td class="lb-rank">'+(i+1)+'</td><td class="lb-name" title="'+r.name+'">'+r.name+altBadge(r)+'</td><td class="lb-dist" title="'+r.district_name+'">'+r.district_name+'</td><td>'+pct(r[metricKey])+'</td><td>'+r.enrollment+'</td></tr>';
+  return'<tr><td class="lb-rank">'+(i+1)+'</td><td class="lb-name"><span class="lb-name-text" title="'+r.name+'">'+r.name+'</span>'+altBadge(r)+'</td><td class="lb-dist" title="'+r.district_name+'">'+r.district_name+'</td><td>'+pct(r[metricKey])+'</td><td>'+r.enrollment+'</td></tr>';
 }
 
 async function renderLeaderboard(){
