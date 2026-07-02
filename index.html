@@ -140,8 +140,13 @@ tr.highlighted td.rank-cell{color:#0f3f66}
           <animate attributeName="opacity" values="0.4;0.05;0.4" dur="2.6s" repeatCount="indefinite"/>
         </circle>
         <circle cx="97" cy="74" r="9" fill="#FFB85C" stroke="#fff" stroke-width="2"/>
+        <circle cx="88" cy="42" r="13" fill="#FFB85C" opacity="0.3">
+          <animate attributeName="r" values="10;19;10" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.4;0.05;0.4" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="88" cy="42" r="7" fill="#FFB85C" stroke="#fff" stroke-width="1.5"/>
       </svg>
-      <span class="tt-box">Currently mapped: Lake Washington, Bellevue, Northshore &amp; Issaquah school districts (King County Eastside).<span class="tt-src">More districts coming soon. Pick one from the dropdown below.</span></span>
+      <span class="tt-box" id="waMapTip">Loading district coverage&hellip;<span class="tt-src">Pick one from the dropdown below.</span></span>
     </div>
     <div class="header-text">
       <div class="brand">WASchool<span class="lens">Lens</span></div>
@@ -644,6 +649,15 @@ async function init(){
     const year=idx.districts[0]?.school_year||'2024-25';
     document.getElementById('subbar').textContent=
       idx.districts.length+' Washington school districts · '+totalSchools+' schools · '+year+' school year · Data: OSPI Washington State Report Card (data.wa.gov)';
+    const names=idx.districts.map(d=>d.district.replace(/ School District$/,'').replace(/^Seattle Public Schools$/,'Seattle'));
+    let nameList;
+    if(names.length<=6){
+      nameList=names.length>1?names.slice(0,-1).join(', ')+' & '+names[names.length-1]:names[0]||'';
+    }else{
+      nameList=names.slice(0,5).join(', ')+', and '+(names.length-5)+' more';
+    }
+    document.getElementById('waMapTip').innerHTML=
+      'Currently mapped: '+nameList+'.<span class="tt-src">Pick one from the dropdown below.</span>';
     const sel=document.getElementById('districtSel');
     sel.innerHTML=idx.districts.map(d=>'<option value="'+d.slug+'">'+d.district+'</option>').join('');
     sel.addEventListener('change',e=>loadDistrict(e.target.value));

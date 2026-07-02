@@ -46,10 +46,18 @@ FILES = {
 
 # slug → DistrictCode (OSPI integer identifier)
 DISTRICTS = {
-    "lwsd": 17414,   # Lake Washington School District
-    "bsd":  17405,   # Bellevue School District
-    "nsd":  17417,   # Northshore School District
-    "isd":  17411,   # Issaquah School District
+    "lwsd":  17414,   # Lake Washington School District
+    "bsd":   17405,   # Bellevue School District
+    "nsd":   17417,   # Northshore School District
+    "isd":   17411,   # Issaquah School District
+    "sps":   17001,   # Seattle Public Schools
+    "shsd":  17412,   # Shoreline School District
+    "esd":   31015,   # Edmonds School District
+    "eps":   31002,   # Everett School District
+    "snosd": 31201,   # Snohomish School District
+    "rvsd":  17407,   # Riverview School District
+    "rsd":   17403,   # Renton School District
+    "misd":  17400,   # Mercer Island School District
     # Add more districts here — same Excel files, no other changes needed
 }
 
@@ -58,6 +66,14 @@ DISTRICT_NAMES = {
     17405: "Bellevue School District",
     17417: "Northshore School District",
     17411: "Issaquah School District",
+    17001: "Seattle Public Schools",
+    17412: "Shoreline School District",
+    31015: "Edmonds School District",
+    31002: "Everett School District",
+    31201: "Snohomish School District",
+    17407: "Riverview School District",
+    17403: "Renton School District",
+    17400: "Mercer Island School District",
 }
 
 # ── HELPERS ─────────────────────────────────────────────────────────────────
@@ -140,7 +156,7 @@ def build_school_type_lookup(enr_df, school_type_codes):
     treated as a choice/alternative/special program.
     Returns {(dist_code, school_code): {'is_alt': bool, 'code': str, 'desc': str}}"""
     d = enr_df[
-        (enr_df['OrganizationLevel'] == 'School') &
+        enr_df['SchoolCode'].notna() &
         (enr_df['GradeLevel'] == 'All Grades')
     ]
     out = {}
@@ -208,8 +224,8 @@ def build_reference_tables(enr_df):
     org_id_bridge = {}
     dist_org_ids  = {}
 
-    # District-level rows for dist_org_id lookup
-    dist_rows = enr_df[enr_df['OrganizationLevel'] == 'District']
+    # District-level rows for dist_org_id lookup (SchoolCode is null on these)
+    dist_rows = enr_df[enr_df['SchoolCode'].isna() & (enr_df['GradeLevel'] == 'All Grades')]
     for _, r in dist_rows.iterrows():
         dc  = safe_int(r.get('DistrictCode'))
         doi = safe_int(r.get('DistrictOrganizationId'))
@@ -218,7 +234,7 @@ def build_reference_tables(enr_df):
 
     # School-level rows
     school_rows = enr_df[
-        (enr_df['OrganizationLevel'] == 'School') &
+        enr_df['SchoolCode'].notna() &
         (enr_df['GradeLevel'] == 'All Grades')
     ]
     for _, r in school_rows.iterrows():
@@ -241,7 +257,7 @@ def extract_grade_bands(enr_df, dist_code):
     Returns {school_code: {'types': [...], 'type_label': str}}"""
     d = enr_df[
         (enr_df['DistrictCode'] == dist_code) &
-        (enr_df['OrganizationLevel'] == 'School') &
+        enr_df['SchoolCode'].notna() &
         (enr_df['GradeLevel'] != 'All Grades')
     ]
     grades_by_school = {}
@@ -274,7 +290,7 @@ def extract_enrollment(enr_df, dist_code):
     """Returns {school_code: {...enrollment metrics...}}"""
     d = enr_df[
         (enr_df['DistrictCode'] == dist_code) &
-        (enr_df['OrganizationLevel'] == 'School') &
+        enr_df['SchoolCode'].notna() &
         (enr_df['GradeLevel'] == 'All Grades')
     ]
     out = {}
@@ -416,7 +432,7 @@ def extract_wakids(wakids_df, dist_code, dist_org_ids, org_id_bridge):
 
     d = wakids_df[
         (wakids_df['DistrictOrganizationId'] == dist_org_id) &
-        (wakids_df['OrganizationLevel'] == 'School') &
+        wakids_df['SchoolOrganizationId'].notna() &
         (wakids_df['StudentGroup'] == 'All Students') &
         (wakids_df['Measure'] == 'NumberofDomainsReadyforKindergarten') &
         (wakids_df['MeasureValue'].astype(str).str.strip() == '6')
@@ -581,14 +597,23 @@ def main():
         return 1
 
     print('Reading Excel files (this may take ~30 seconds) ...')
+    # Read the first sheet in each file by position, not by name. OSPI's exports
+    # have used inconsistent sheet names across releases ('Data' vs 'Sheet1'),
+    # so relying on position is more robust than hardcoding a name.
+    def read_first_sheet(label, path):
+        xl = pd.ExcelFile(path)
+        actual_name = xl.sheet_names[0]
+        print(f'  {label}: reading sheet "{actual_name}" from {os.path.basename(path)}')
+        return pd.read_excel(xl, sheet_name=0)
+
     dfs = {
-        'enrollment': pd.read_excel(os.path.join(INPUT_DIR, FILES['enrollment']), sheet_name='Data'),
-        'assessment': pd.read_excel(os.path.join(INPUT_DIR, FILES['assessment']), sheet_name='Data'),
-        'growth':     pd.read_excel(os.path.join(INPUT_DIR, FILES['growth']),     sheet_name='Sheet1'),
-        'discipline': pd.read_excel(os.path.join(INPUT_DIR, FILES['discipline']), sheet_name='Data'),
-        'graduation': pd.read_excel(os.path.join(INPUT_DIR, FILES['graduation']), sheet_name='Sheet1'),
-        'sqss':       pd.read_excel(os.path.join(INPUT_DIR, FILES['sqss']),       sheet_name='Data'),
-        'wakids':     pd.read_excel(os.path.join(INPUT_DIR, FILES['wakids']),     sheet_name='Data'),
+        'enrollment': read_first_sheet('enrollment', os.path.join(INPUT_DIR, FILES['enrollment'])),
+        'assessment': read_first_sheet('assessment', os.path.join(INPUT_DIR, FILES['assessment'])),
+        'growth':     read_first_sheet('growth',     os.path.join(INPUT_DIR, FILES['growth'])),
+        'discipline': read_first_sheet('discipline', os.path.join(INPUT_DIR, FILES['discipline'])),
+        'graduation': read_first_sheet('graduation', os.path.join(INPUT_DIR, FILES['graduation'])),
+        'sqss':       read_first_sheet('sqss',       os.path.join(INPUT_DIR, FILES['sqss'])),
+        'wakids':     read_first_sheet('wakids',     os.path.join(INPUT_DIR, FILES['wakids'])),
     }
     print('Files loaded.')
 
