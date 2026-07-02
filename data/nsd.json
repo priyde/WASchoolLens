@@ -1221,7 +1221,7 @@
    "elem": "Canyon Creek Elementary",
    "ms": "Canyon Park Middle School",
    "hs": "North Creek High School",
-   "note": "Attendance boundary spans Bothell & North Creek HS pathways — HS assignment depends on home address"
+   "note": "Attendance boundary spans Bothell & North Creek HS pathways; assignment depends on home address"
   },
   {
    "elem_code": 4306,
@@ -1230,7 +1230,7 @@
    "elem": "Fernwood Elementary",
    "ms": "Canyon Park Middle School",
    "hs": "North Creek High School",
-   "note": "Attendance boundary spans Bothell & North Creek HS pathways — HS assignment depends on home address"
+   "note": "Attendance boundary spans Bothell & North Creek HS pathways; assignment depends on home address"
   },
   {
    "elem_code": 4455,
@@ -1239,7 +1239,7 @@
    "elem": "Kokanee Elementary",
    "ms": "Skyview Middle School",
    "hs": "North Creek High School",
-   "note": "Attendance boundary spans North Creek & Woodinville HS pathways — HS assignment depends on home address"
+   "note": "Attendance boundary spans North Creek & Woodinville HS pathways; assignment depends on home address"
   },
   {
    "elem_code": 3105,
@@ -1266,7 +1266,7 @@
    "elem": "Ruby Bridges Elementary",
    "ms": "Canyon Park Middle School",
    "hs": "North Creek High School",
-   "note": "Ruby Bridges opened after 2017 — split geographically between Canyon Park MS and Skyview MS"
+   "note": "Ruby Bridges opened after 2017; splits geographically between Canyon Park MS and Skyview MS"
   },
   {
    "elem_code": 5605,
@@ -1275,7 +1275,7 @@
    "elem": "Ruby Bridges Elementary",
    "ms": "Skyview Middle School",
    "hs": "North Creek High School",
-   "note": "Ruby Bridges opened after 2017 — split geographically between Canyon Park MS and Skyview MS"
+   "note": "Ruby Bridges opened after 2017; splits geographically between Canyon Park MS and Skyview MS"
   },
   {
    "elem_code": 4069,
@@ -1302,7 +1302,7 @@
    "elem": "Bear Creek",
    "ms": "Timbercrest Middle School",
    "hs": "Woodinville HS",
-   "note": "Bear Creek Elementary not found in OSPI 2024-25 data — may be too new or too small for public reporting"
+   "note": "Bear Creek Elementary not found in OSPI 2024-25 data; may be too new or too small for public reporting"
   },
   {
    "elem_code": 3234,
@@ -1338,7 +1338,7 @@
    "elem": "Kokanee Elementary",
    "ms": "Timbercrest Middle School",
    "hs": "Woodinville HS",
-   "note": "Attendance boundary spans North Creek & Woodinville HS pathways — HS assignment depends on home address"
+   "note": "Attendance boundary spans North Creek & Woodinville HS pathways; assignment depends on home address"
   },
   {
    "elem_code": 4124,
